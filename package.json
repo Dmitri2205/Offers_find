@@ -1,0 +1,30 @@
+{
+  "name": "react_underground",
+  "version": "1.0.0",
+  "description": "Playground progect",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitri2205/React_underground.git"
+  },
+  "author": "Dmitry Baranov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dmitri2205/React_underground/issues"
+  },
+  "homepage": "https://github.com/Dmitri2205/React_underground#readme",
+  "devDependencies": {
+    "@types/styled-components": "^5.1.26",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.8.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "styled-components": "^5.3.6"
+  }
+}

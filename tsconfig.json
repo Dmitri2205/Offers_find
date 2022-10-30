@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+    "declaration":true,  // Ensure that .d.ts files are created by tsc, but not .js files
+    "emitDeclarationOnly": true,
+    "isolatedModules": true,//  safely transpile files in the TypeScript project
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "sourceMap": true,
+    "moduleResolution": "node"
+    }
+  }
