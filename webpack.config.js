@@ -6,18 +6,22 @@ if (process.env.NODE_ENV === "production") mode = "production";
 
 const rules = [
   {
-    test: /\.m?js$/,
+    test: /\.m?js(x?)$/,
     exclude: /node_modules/,
     use: {
       loader: "babel-loader",
       options: {
-        presets: ["@babel/preset-env","@babel/preset-react","@babel/preset-typescript"],
-        cacheDirectory: "true"
+        presets: [
+          "@babel/preset-env",
+          "@babel/preset-react",
+          "@babel/preset-typescript",
+        ],
+        cacheDirectory: "true",
       },
     },
   },
   {
-    test: /\.tsx?$/,
+    test: /\.ts(x?)$/,
     use: "ts-loader",
     exclude: /node_modules/,
   },
@@ -50,7 +54,16 @@ module.exports = (env) => {
     entry: "./src/index.js",
     module: { rules },
     resolve: {
-      extensions: [".tsx", ".ts", ".js"],
+      extensions: [
+        ".tsx", 
+        ".ts", 
+        ".js", 
+        ".jsx"
+      ],
+      alias:{
+        "@modules":path.resolve( __dirname, "src/modules"),
+        "@styles":path.resolve( __dirname, "src/styles")
+      }
     },
     output: {
       filename: "bundle.js",
