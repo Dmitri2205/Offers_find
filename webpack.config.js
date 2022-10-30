@@ -1,27 +1,66 @@
-const path = require('path');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
-  entry: './src/index.js',
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
+let mode = "development";
+if (process.env.NODE_ENV === "production") mode = "production";
+
+const rules = [
+  {
+    test: /\.m?js$/,
+    exclude: /node_modules/,
+    use: {
+      loader: "babel-loader",
+      options: {
+        presets: ["@babel/preset-env","@babel/preset-react","@babel/preset-typescript"],
+        cacheDirectory: "true"
       },
-    ],
+    },
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+  {
+    test: /\.tsx?$/,
+    use: "ts-loader",
+    exclude: /node_modules/,
   },
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
+  {
+    test: /\.(html)$/,
+    use: "html-loader",
   },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    hot:true,
+  {
+    test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
+    type: mode === "production" ? "asset" : "asset/resource", // В продакшен режиме
+    // изображения размером до 8кб будут инлайнится в код
+    // В режиме разработки все изображения будут помещаться в dist/assets
   },
-  devtool: 'inline-source-map'
+  {
+    test: /\.(woff2?|eot|ttf|otf)$/i,
+    type: "asset/resource",
+  },
+];
+
+const plugins = [
+  new HtmlWebpackPlugin({
+    template: "./src/index.html",
+  }),
+];
+
+module.exports = (env) => {
+  return {
+    mode,
+    plugins,
+    entry: "./src/index.js",
+    module: { rules },
+    resolve: {
+      extensions: [".tsx", ".ts", ".js"],
+    },
+    output: {
+      filename: "bundle.js",
+      path: path.resolve(__dirname, "dist"),
+      assetModuleFilename: "assets/[name][hash][ext]",
+      clean: true,
+    },
+    devServer: {
+      hot: true,
+    },
+    devtool: "inline-source-map",
+  };
 };
