@@ -1,31 +1,27 @@
-import React, { EffectCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
 import { GlobalStyle, ApplicationWraper } from "@styles/global";
 import { api } from "@API";
 
 export default function App() {
-  const [location, setLocation] = React.useState<string>("");
+  const [location, setLocation] = useState<string | any>(null);
+  const [mapShown, setMapShown] = useState<boolean>(false);
 
   useEffect((): void=> {
-  //  getGeolocation();
+   getGeolocation()
   }, []);
 
   const getGeolocation = async (): Promise<any>=> {
-    let bbox: string | void = null;
+    
     const logPosition = (pos: any) => {
      const {latitude,longitude} = pos.coords;
-     const bbox = [
+     const center = [
       latitude,
-      (latitude + 5),
-       longitude,
-       (longitude + 5)
+      longitude,
      ];
-      console.log(bbox);
-      const stores = api.getStores(bbox);
-      stores.then((res: any)=>{
-        console.log(res);
-      })
+     const bounds = [latitude + 0.00000001, (latitude + 0.2), longitude, (longitude + 0.2)]
+      setLocation({center,bounds});
     };
 
     if (navigator.geolocation) {
@@ -34,11 +30,24 @@ export default function App() {
     
   };
 
+  useEffect(()=>{
+    if(location){
+      giveMeStores();
+    }
+  },[location])
+
+  const giveMeStores = () => {
+    const stores = api.getStoresInLocation(location);
+    stores.then((res: any)=>{
+      console.log(res);
+    })
+  }
+
   return (
     <ApplicationWraper>
       <GlobalStyle />
-      <Header />
-      <Content/>
+      <Header mapShown={mapShown} setMapShown={setMapShown}/>
+      <Content location={location} mapShown={mapShown} />
     </ApplicationWraper>
   );
 }

@@ -3,16 +3,22 @@ import axios from "axios";
 
 class API {
   constructor() {
-    this.prefix = "https://media.5ka.ru/api/v2/";
+    this.v2 = "https://5ka.ru/api/v2/";
+    this.v1 = "https://5ka.ru/api/public/v1/";
+    this.v3 = "https://5ka.ru/api/v3/"
   }
 
   requestData = (method, url, params, funcName ) => {
-    const URI = this.prefix + url;
-    const headers = { "Accept": "application/json",  "Content-type": "application/json" };
+    const headers = { 
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive"
+    };
     return axios({
       method,
-      URI,
-      headers
+      url,
+      headers,
+      params
     }).then((response)=>{
       console.log(response)
         return response;
@@ -22,10 +28,13 @@ class API {
   };
 
 
-  getStores(bbox){
-    const params = {bbox};
-    return this.requestData("get","stores/", params);
-  }
+  getStoresInLocation(coords){
+
+    const {center} = coords;
+    let params = {lat:center[0],lon:center[1],radius:1000};
+
+    return this.requestData("GET",  this.v3 + "stores/", params)
+}
 
   getItems(){
     const params = {records_per_page:1e10, page:1,store:'35K3'}

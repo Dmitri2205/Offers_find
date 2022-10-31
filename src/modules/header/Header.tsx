@@ -3,28 +3,35 @@ import  {
     Header as Head,
     Burger,
     Navigation
-} from "@modules/header/HeaderStyle";
+} from '@modules/header/HeaderStyle';
 
 interface HeaderProps {
-    isLogedIn?: boolean
-    children?: React.ReactNode
+    isLogedIn?: boolean;
+    mapShown:boolean;
+    setMapShown:(mapShown:boolean) => void;
+    children?: React.ReactNode;
 }
 
-const Header: React.FC<HeaderProps> = ({isLogedIn}) => {
+const Header: React.FC<HeaderProps> = ({isLogedIn,mapShown,setMapShown}) => {
 
 const [menuOpened,setMenu] = useState<boolean>(false);
+
 
 const menuHandler = (): void => {
     setMenu(!menuOpened);
 }
 
+const goToMap = (): void => {
+    setMapShown(!mapShown);
+}
+
     return (
-        <Head className="header">
+        <Head>
             <Navigation>
                 <Burger onClick={menuHandler} menuOpened={menuOpened} >
                     <span></span>
                 </Burger>
-                
+                <span onClick={goToMap} style={{cursor:'pointer'}}>Карта</span>
             </Navigation>
         </Head>
     )
