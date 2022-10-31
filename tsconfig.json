@@ -16,7 +16,8 @@
     "baseUrl": "src/",
     "paths": {
       "@modules/*":["modules/*"],
-      "@styles/*":["styles/*"]
+      "@styles/*":["styles/*"],
+      "@API":["api/index.js"]
     }
     }
   }

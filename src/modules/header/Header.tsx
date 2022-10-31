@@ -1,4 +1,9 @@
-import React from 'react';
+import React,{useState} from 'react';
+import  {
+    Header as Head,
+    Burger,
+    Navigation
+} from "@modules/header/HeaderStyle";
 
 interface HeaderProps {
     isLogedIn?: boolean
@@ -7,18 +12,21 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({isLogedIn}) => {
 
+const [menuOpened,setMenu] = useState<boolean>(false);
+
+const menuHandler = (): void => {
+    setMenu(!menuOpened);
+}
+
     return (
-        <header className="header">
-            <nav>
-                <a href='/'>Home</a>
-                <a href="/blog">Blog</a>
-                {
-                    isLogedIn?
-                        <a href="/about">About</a> :
-                        null
-                }
-            </nav>
-        </header>
+        <Head className="header">
+            <Navigation>
+                <Burger onClick={menuHandler} menuOpened={menuOpened} >
+                    <span></span>
+                </Burger>
+                
+            </Navigation>
+        </Head>
     )
 }
 

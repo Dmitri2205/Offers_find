@@ -62,7 +62,8 @@ module.exports = (env) => {
       ],
       alias:{
         "@modules":path.resolve( __dirname, "src/modules"),
-        "@styles":path.resolve( __dirname, "src/styles")
+        "@styles":path.resolve( __dirname, "src/styles"),
+        "@API":path.resolve( __dirname, "src/api")
       }
     },
     output: {
@@ -73,6 +74,7 @@ module.exports = (env) => {
     },
     devServer: {
       hot: true,
+      https:true
     },
     devtool: "inline-source-map",
   };

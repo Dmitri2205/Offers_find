@@ -9,6 +9,6 @@ body {
 
 export const ApplicationWraper = styled.div((props): string => {
     return `
-    background-color: cyan;
+    background-color: grey;
     `
 });
