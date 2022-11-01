@@ -17,7 +17,9 @@
     "paths": {
       "@modules/*":["modules/*"],
       "@styles/*":["styles/*"],
-      "@API":["api/index.js"]
+      "@API":["api/index.js"],
+      "@store":["store/*"],
+      "@icons":["images/icons/*"]
     }
     }
   }

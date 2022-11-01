@@ -1,4 +1,4 @@
-declare module '*(.svg|.png|.jpg|.jpeg|.gif|.ico)' {
+declare module '*.svg' {
     const content: any;
     export default content;
   }

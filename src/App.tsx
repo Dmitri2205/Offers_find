@@ -3,14 +3,20 @@ import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
 import { GlobalStyle, ApplicationWraper } from "@styles/global";
 import { api } from "@API";
+import { storesSlice } from './store/reducers/StoresSlice';
+import { useAppDispatch } from "./hooks/redux";
 
 export default function App() {
+
+  const {setStores} = storesSlice.actions; //сеттер магазинов
+  const dispatch = useAppDispatch(); // диспатч сеттера для редуктора
+
   const [location, setLocation] = useState<string | any>(null);
   const [mapShown, setMapShown] = useState<boolean>(false);
 
   useEffect((): void=> {
-   getGeolocation()
-  }, []);
+   getGeolocation();
+   }, []);
 
   const getGeolocation = async (): Promise<any>=> {
     
@@ -39,7 +45,8 @@ export default function App() {
   const giveMeStores = () => {
     const stores = api.getStoresInLocation(location);
     stores.then((res: any)=>{
-      console.log(res);
+      const {results} = res.data;
+      dispatch(setStores(results));
     })
   }
 
@@ -47,7 +54,7 @@ export default function App() {
     <ApplicationWraper>
       <GlobalStyle />
       <Header mapShown={mapShown} setMapShown={setMapShown}/>
-      <Content location={location} mapShown={mapShown} />
+      <Content location={location} mapShown={mapShown}/>
     </ApplicationWraper>
   );
 }

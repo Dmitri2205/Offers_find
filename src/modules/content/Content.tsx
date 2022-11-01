@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Content as ContentWraper } from "./ContentStyles";
 import GoogleMapReact from "google-map-react";
+import { useAppSelector } from "../../hooks/redux";
+import StoresList from "./StoresList/StoresList";
 
 interface ContentProps {
   location: any;
@@ -9,9 +11,12 @@ interface ContentProps {
 }
 
 const Content = ({ location,mapShown }: ContentProps) => {
+  
+  const {stores} = useAppSelector(state => state.storesReducer);
+
   useEffect(() => {
-    console.log(location);
-  }, []);
+    if(stores.length) console.log(stores)
+  }, [stores]);
 
   const createMapOptions = () => {
     return {
@@ -25,20 +30,21 @@ const Content = ({ location,mapShown }: ContentProps) => {
 
   return (
     <ContentWraper>
-      <div>
-        { location && mapShown ?
+        { mapShown ?
+        <div className="GoogleMapComponent">
           <GoogleMapReact
-            bootstrapURLKeys={{ key:'AIzaSyAtsheN2llz1NrOyNqZxCbPf0n615ikaR4' }}
+            bootstrapURLKeys={{ key:process.env.MAP_API_KEY }}
             defaultZoom={9}
             center={location.center}
             options={() => createMapOptions()}
           >
 
           </GoogleMapReact>
+          </div>
           :
-          <p>тут контент</p>
+          <StoresList stores={stores}></StoresList>
         }
-      </div>
+      
     </ContentWraper>
   );
 };
