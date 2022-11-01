@@ -15,6 +15,9 @@ export const storesSlice = createSlice({
     reducers: {
         setStores(state,action: PayloadAction<any>){
             state.stores = action.payload;
+        },
+        setStoreOffers(state,action: PayloadAction<any>){
+            state.stores = action.payload;
         }
     }
 })

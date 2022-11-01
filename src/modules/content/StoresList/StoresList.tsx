@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Stores, ListWraper, List } from "./ListStyles";
 import logo5ka from "@icons/logo_5ka.svg";
 import {api} from "@API";
+import { Link } from "react-router-dom";
 
-type storesList = {
+export type storesList = {
   address: string;
   name: string;
   city_name: string;
@@ -21,15 +22,6 @@ type subleaseProps = {
 
 const StoresList = ({ stores }: any) => {
 
-    useEffect(() => {
-        if(stores.length !== 0) {
-            const testStore = stores[0].id;
-            api.getItems(testStore)
-            .then((res) => {
-                console.log(`Test request id${stores}: ${res}`)
-            })
-        }
-    },[stores])
 
   return (
     <Stores>
@@ -43,6 +35,7 @@ const StoresList = ({ stores }: any) => {
           ? stores.map((store: storesList, i: number) => {
               return (
                 <List key={`${store.sap_code}i`}>
+                    <Link to={`store/${store.sap_code}`}>
                   <h4>{store.address}</h4>
                   <p>
                     <span>
@@ -69,6 +62,7 @@ const StoresList = ({ stores }: any) => {
                   {store.state === "active" ? (
                     <span className="active"></span>
                   ) : null}
+                  </Link>
                 </List>
               );
             })
