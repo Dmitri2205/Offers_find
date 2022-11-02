@@ -1,39 +1,38 @@
 import React, { JSXElementConstructor, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../hooks/redux";
+import { useAppSelector, useAppDispatch } from '../hooks/redux';
 import { storesSlice } from "../store/reducers/StoresSlice";
 import { storesList } from "./content/StoresList/StoresList";
 import { api } from "@API";
-import StoresList from "./content/StoresList/StoresList";
+import { Detail, DetailsWraper } from "@styles/DetailsStyles";
+import * as moment from "moment";
 
 type offersType = {
   offers: any;
 };
 
-const StoreDetails = () => {
+const StoreDetails = (props: any) => {
   const [loading, isLoading] = useState<boolean>(false);
+  const [storeIndex,setStoreIndex] = useState<number | null>(null);
 
-  const { setStores } = storesSlice.actions;
+  const { setStoreOffers } = storesSlice.actions;
   const { stores } = useAppSelector((state) => state.storesReducer);
-
-  let ThisStore: number;
+  const dispatch = useAppDispatch();
 
   const params = useParams();
+  moment.locale('ru');
 
-  //TO DO
   useEffect(() => {
     let currentStore: number = stores.findIndex(
-      (store: storesList, i: number): boolean =>
-        store.sap_code === params.sapCode
-    );
-    ThisStore = currentStore;
-    if (stores[currentStore].offers?.length === 0) {
+      (store: storesList, i: number): boolean => {
+        return store.sap_code === params.storeSap
+  });
+    setStoreIndex(currentStore);
+    if (!stores[currentStore].offers) {
       isLoading(true);
-      api
-        .getItems(params.storeSap)
-        .then((res) => {
-          const newData = (stores[currentStore].offers = res);
-          setStores(newData);
+      api.getItems(params.storeSap)
+        .then((res: any) => {
+          dispatch(setStoreOffers({data:res.data.results,storeIndex: currentStore}));
         })
         .catch((error) => {
           console.log(error);
@@ -45,20 +44,33 @@ const StoreDetails = () => {
   }, [stores]);
 
   const renderOffers = (): any => {
-    console.log(stores[ThisStore])
-    console.log("OFFERS: " + stores[ThisStore].offers)
-    if (stores[ThisStore].offers && stores[ThisStore].offers.length !== 0) {
-      stores[ThisStore].offers.map((offer: any, i: number) => {
+    console.log(storeIndex);
+    let arr = [];
+    if (stores[storeIndex] && stores[storeIndex].offers) {
+      arr = stores[storeIndex].offers.map((offer: any, i: number) => {
+        const {name,img_link,promo,current_prices} = offer;
         return (
-          <div>
-            <h5>{offer}</h5>
-          </div>
+          <Detail key={`detail${i}`}>
+            <h5>{name}</h5>
+            <img src={img_link}/>
+            <p>
+              <b>Закончится через: </b><span>{moment().to(promo.date_end)}</span>
+            </p>
+            <p>
+            <span>Цена по скидке: {current_prices.price_promo__min}</span>
+              <br/>
+            <span>Цена без скидки: {current_prices.price_reg__min}</span>
+            <br />
+            <p>{"Экономим: " + (Number(current_prices.price_reg__min) - Number(current_prices.price_promo__min)).toFixed(2) + "₽"}</p>
+            </p>
+          </Detail>
         );
       });
     }
+    return arr;
   };
 
-  return <div>{loading && !stores[ThisStore].offers ? <p>Обожди...</p> : renderOffers()}</div>;
+  return <DetailsWraper>{loading ? <p>Обожди...</p> : renderOffers()}</DetailsWraper>;
 };
 
 export default StoreDetails;

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
-import { GlobalStyle, ApplicationWraper } from "@styles/global";
+import { ApplicationWraper } from "@styles/global";
 import { api } from "@API";
 import { storesSlice } from './store/reducers/StoresSlice';
-import { useAppDispatch } from "./hooks/redux";
+import { useAppDispatch,useAppSelector } from "./hooks/redux";
 
 export default function App() {
 
   const {setStores} = storesSlice.actions; //сеттер магазинов
+  const {stores} = useAppSelector(state => state.storesReducer);
   const dispatch = useAppDispatch(); // диспатч сеттера для редуктора
 
   const [location, setLocation] = useState<string | any>(null);
@@ -43,16 +44,21 @@ export default function App() {
   },[location])
 
   const giveMeStores = () => {
+    if(stores.length === 0){
     const stores = api.getStoresInLocation(location);
     stores.then((res: any)=>{
       const {results} = res.data;
       dispatch(setStores(results));
     })
+    .catch((error)=>{
+      console.log(error.message);
+    });
+  }
+  return stores;
   }
 
   return (
     <ApplicationWraper>
-      <GlobalStyle />
       <Header mapShown={mapShown} setMapShown={setMapShown}/>
       <Content location={location} mapShown={mapShown}/>
     </ApplicationWraper>
