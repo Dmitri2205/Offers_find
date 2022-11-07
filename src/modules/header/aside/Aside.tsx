@@ -6,7 +6,7 @@ interface AsideProps {
     menuOpened?: boolean;
 }
 
-export const Aside: React.FC<AsideProps> = ({menuOpened}) => {
+const Aside: React.FC<AsideProps> = ({menuOpened}) => {
     
     const [navLinks] = useState([
         {
@@ -42,3 +42,5 @@ export const Aside: React.FC<AsideProps> = ({menuOpened}) => {
         </AsideBlock>
     )
 }
+
+export default Aside;

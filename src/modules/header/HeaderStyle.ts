@@ -84,8 +84,8 @@ export const Burger = styled.span<BurgerProps>`
   return `
       display:flex;
       flex-direction:column;
-      justify-content: center;
-      align-items:center;
+      justify-content: flex-start;
+      align-items:flex-start;
       width:268px;
       height:100%;
       position:absolute;
@@ -94,5 +94,10 @@ export const Burger = styled.span<BurgerProps>`
       ${menuOpened ? "left:0" : "left:-268px"};
       background-color:cyan;
       transition: all .3s linear;
+      &>a{
+        display:inline-flex;
+        margin-bottom:8px;
+        border:1px solid black;
+      }
     `
     });

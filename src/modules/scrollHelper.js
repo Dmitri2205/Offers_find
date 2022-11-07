@@ -17,5 +17,5 @@ export default function scrollHelper(event) {
       element.style.transform = "rotateX(0deg)";
     }
   }
-  console.log(offsets);
+  // console.log(offsets);
 }

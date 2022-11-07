@@ -21,17 +21,12 @@ const menuHandler = (): void => {
     setMenuOpened(!menuOpened);
 }
 
-const goToMap = (): void => {
-    setMapShown(!mapShown);
-}
-
     return (
         <Head>
             <Navigation>
                 <Burger onClick={menuHandler} menuOpened={menuOpened} >
                     <span></span>
                 </Burger>
-                <span onClick={goToMap} style={{cursor:'pointer'}}>Карта</span>
             </Navigation>
         </Head>
     )

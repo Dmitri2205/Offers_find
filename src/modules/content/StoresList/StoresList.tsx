@@ -1,11 +1,14 @@
 import React, { useState, useEffect,useRef } from "react";
 import { Stores, ListWraper, List } from "./ListStyles";
 import logo5ka from "@icons/logo_5ka.svg";
-import {api} from "@API";
-import { Link } from "react-router-dom";
+import { api } from "@API";
+import { storesSlice } from "../../../store/reducers/StoresSlice";
+import { Link, Route } from "react-router-dom";
 import scrollHelper from "@modules/scrollHelper"
+import { useAppSelector,useAppDispatch  } from "../../../hooks";
 
 export type storesList = {
+  storesReducer: any;
   address: string;
   name: string;
   city_name: string;
@@ -21,8 +24,29 @@ type subleaseProps = {
   type_name: string;
 };
 
-const StoresList = ({ stores }: any) => {
+const StoresList = () => {
+  const {setStores } = storesSlice.actions;
+  const { stores } = useAppSelector((state) => state.storesReducer); //селектор магазинов
+  const { coords } = useAppSelector((state) => state.coordsReducer); //селектор координат
+  const dispatch = useAppDispatch(); // диспатч сеттера для редуктора
 
+  useEffect(() => {
+    if (coords.length !== 0) giveMeStores();
+  }, [coords]);
+
+  const giveMeStores = () => {
+    if (stores.length === 0) {
+      const stores = api.getStoresInLocation(coords);
+      stores
+        .then((res: any) => {
+          const { results } = res.data;
+          dispatch(setStores(results));
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
   const storesRef = useRef(null)
 
   useEffect(()=>{

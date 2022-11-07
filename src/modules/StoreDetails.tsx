@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from '../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../hooks';
 import { storesSlice } from "../store/reducers/StoresSlice";
 import { storesList } from "./content/StoresList/StoresList";
 import { api } from "@API";
@@ -57,7 +57,6 @@ const StoreDetails = (props: any) => {
   },[ItemsList])
 
   const renderOffers = (): any => {
-    console.log(storeIndex);
     let arr = [];
     if (stores[storeIndex] && stores[storeIndex].offers) {
       arr = stores[storeIndex].offers.map((offer: any, i: number) => {

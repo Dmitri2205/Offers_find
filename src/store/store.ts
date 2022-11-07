@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from '@reduxjs/toolkit'
 import storesReducer  from './reducers/StoresSlice'; 
+import coordsReducer  from './reducers/CoordsSlice'; 
 
 
 const rootReducer = combineReducers({
-    storesReducer
+    storesReducer,
+    coordsReducer
 })
 
 export const store = configureStore({

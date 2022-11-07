@@ -19,7 +19,8 @@
       "@styles/*":["styles/*"],
       "@API":["api/index.js"],
       "@store":["store/*"],
-      "@icons":["images/icons/*"]
+      "@icons":["images/icons/*"],
+      "@hooks":["hooks/*"]
     }
     }
   }

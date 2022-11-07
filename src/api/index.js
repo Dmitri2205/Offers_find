@@ -27,8 +27,8 @@ class API {
 
 
   getStoresInLocation(coords){
-    const {center} = coords;
-    let params = {lat:center[0],lon:center[1],radius:10000};
+    const {center:{latitude,longitude}} = coords;
+    let params = {lat:latitude,lon:longitude,radius:10000};
     return this.requestData("GET",  this.v3 + "stores/", params)
 }
 

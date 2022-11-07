@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Content as ContentWraper } from "./ContentStyles";
 import { MainMap } from "@modules/Map/MainMap";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppSelector } from "../../hooks";
 import StoresList from "./StoresList/StoresList";
+import { Route } from "react-router-dom";
 
 interface ContentProps {
   location: any;
@@ -26,11 +27,6 @@ const Content = ({ location, mapShown,children }: ContentProps) => {
   return (
     <ContentWraper>
       {children}
-      {mapShown ? (
-        <MainMap location={location} stores={stores} />
-      ) : (
-        <StoresList stores={stores}/>
-      )}
     </ContentWraper>
   );
 };

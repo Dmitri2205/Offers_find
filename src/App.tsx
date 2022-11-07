@@ -1,67 +1,46 @@
-import React, { useState, useEffect,useRef } from "react";
+import React,{ useState, useEffect } from "react";
 import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
+import Aside  from "@modules/header/aside/Aside";
+import StoresList  from "@modules/content/StoresList/StoresList";
+import StoreDetails from '@modules/StoreDetails';
 import { ApplicationWraper } from "@styles/global";
-import { api } from "@API";
-import { storesSlice } from './store/reducers/StoresSlice';
-import { useAppDispatch,useAppSelector } from "./hooks/redux";
-import { Aside } from "@modules/header/aside/Aside";
+import { storesSlice } from "./store/reducers/StoresSlice";
+import { useAppDispatch, useAppSelector } from "./hooks";
+import { getUserGeolocation } from './store/reducers/CoordsSlice';
+import { Route, Routes } from "react-router-dom";
+import { MainMap } from './modules/Map/MainMap';
 
 export default function App() {
-
-  const {setStores} = storesSlice.actions; //сеттер магазинов
-  const {stores} = useAppSelector(state => state.storesReducer);
+  const { setStores } = storesSlice.actions; //сеттер магазинов
+  const { stores } = useAppSelector((state) => state.storesReducer); //селектор магазинов
+  const { coords } = useAppSelector((state) => state.coordsReducer); //селектор координат
   const dispatch = useAppDispatch(); // диспатч сеттера для редуктора
 
-  const [location, setLocation] = useState<string | any>(null);
   const [mapShown, setMapShown] = useState<boolean>(false);
-  const [menuOpened,setMenuOpened] = useState<boolean>(false)
+  const [menuOpened, setMenuOpened] = useState<boolean>(false);
 
-  useEffect((): void=> {
-   getGeolocation();
-   }, []);
+  useEffect((): void => {
+    dispatch(getUserGeolocation());
+  }, []);
 
-  const getGeolocation = async (): Promise<any>=> {
-    
-    const logPosition = (pos: any) => {
-     const {latitude,longitude} = pos.coords;
-     const center = [
-      latitude,
-      longitude,
-     ];
-     const bounds = [latitude + 0.00000001, (latitude + 0.2), longitude, (longitude + 0.2)]
-      setLocation({center,bounds});
-    };
-
-    if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(logPosition);
-    };
-    
-  };
-
-  useEffect(()=>{
-    if(location) giveMeStores();
-  },[location])
-
-  const giveMeStores = () => {
-    if(stores.length === 0){
-    const stores = api.getStoresInLocation(location);
-    stores.then((res: any)=>{
-      const {results} = res.data;
-      dispatch(setStores(results));
-    })
-    .catch((error)=>{
-      console.log(error.message);
-    });
-  }
-  return stores;
-  }
 
   return (
-    <ApplicationWraper id="app-wraper">
-      <Header mapShown={mapShown} setMapShown={setMapShown} setMenuOpened={setMenuOpened} menuOpened={menuOpened}/>
+
+    <ApplicationWraper>
+      <Header
+        mapShown={mapShown}
+        setMapShown={setMapShown}
+        setMenuOpened={setMenuOpened}
+        menuOpened={menuOpened}
+      />
       <Content location={location} mapShown={mapShown}>
-        <Aside menuOpened={menuOpened}/>
+        <Aside menuOpened={menuOpened} />
+        <Routes>
+          <Route index element={<StoresList/>} />
+          <Route path="store/:storeSap" element={<StoreDetails/>}/>
+          <Route path="map" element={<MainMap/>}/>
+        </Routes>
       </Content>
     </ApplicationWraper>
   );

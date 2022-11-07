@@ -95,6 +95,7 @@ module.exports = (env) => {
         "@API": path.resolve(__dirname, "src/api"),
         "@store": path.resolve(__dirname, "src/store"),
         "@icons": path.resolve(__dirname, "src/images/icons"),
+        "@hooks": path.resolve(__dirname,"src/hooks")
       },
     },
     output: {
@@ -106,6 +107,7 @@ module.exports = (env) => {
     devServer: {
       hot: true,
       https: true,
+      historyApiFallback:true
     },
     devtool: "inline-source-map",
   };
