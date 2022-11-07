@@ -16,7 +16,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/store/:storeSap" element={<StoreDetails/>} />
         <Route
-          path="*"
+          path="/*"
           element={
             <main>
               <p>NO MATCH</p>

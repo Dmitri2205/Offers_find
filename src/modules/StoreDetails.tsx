@@ -1,4 +1,4 @@
-import React, { JSXElementConstructor, useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '../hooks/redux';
 import { storesSlice } from "../store/reducers/StoresSlice";
@@ -6,12 +6,16 @@ import { storesList } from "./content/StoresList/StoresList";
 import { api } from "@API";
 import { Detail, DetailsWraper } from "@styles/DetailsStyles";
 import * as moment from "moment";
+import scrollHelper from "./scrollHelper"
 
 type offersType = {
   offers: any;
 };
 
 const StoreDetails = (props: any) => {
+
+  const ItemsList = useRef(null)
+
   const [loading, isLoading] = useState<boolean>(false);
   const [storeIndex,setStoreIndex] = useState<number | null>(null);
 
@@ -43,6 +47,15 @@ const StoreDetails = (props: any) => {
     }
   }, [stores]);
 
+  const scrollHandler = (e:any): void => {
+    scrollHelper(e);
+  }
+
+  useEffect(()=>{
+      if(!ItemsList) return;
+      ItemsList.current.addEventListener('scroll',scrollHandler,false);
+  },[ItemsList])
+
   const renderOffers = (): any => {
     console.log(storeIndex);
     let arr = [];
@@ -61,7 +74,7 @@ const StoreDetails = (props: any) => {
               <br/>
             <span>Цена без скидки: {current_prices.price_reg__min}</span>
             <br />
-            <p>{"Экономим: " + (Number(current_prices.price_reg__min) - Number(current_prices.price_promo__min)).toFixed(2) + "₽"}</p>
+            <span>{"Экономим: " + (Number(current_prices.price_reg__min) - Number(current_prices.price_promo__min)).toFixed(2) + "₽"}</span>
             </p>
           </Detail>
         );
@@ -70,7 +83,7 @@ const StoreDetails = (props: any) => {
     return arr;
   };
 
-  return <DetailsWraper>{loading ? <p>Обожди...</p> : renderOffers()}</DetailsWraper>;
+  return <DetailsWraper ref={ItemsList}>{loading ? <p>Обожди...</p> : renderOffers()}</DetailsWraper>;
 };
 
 export default StoreDetails;

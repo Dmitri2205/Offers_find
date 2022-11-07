@@ -3,8 +3,10 @@ import styled from "styled-components";
 export const Content = styled.main`
 display:flex;
 width:100%;
-height:96.7vh;
+height:100%;
+position:relative;
 a{
+    color:black;
     text-decoration:none;
 }
 div:has(.GoogleMapComponent){

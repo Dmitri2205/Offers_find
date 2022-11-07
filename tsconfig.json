@@ -9,7 +9,7 @@
     "noImplicitAny": true,
     "module": "es6",
     "target": "es5",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "sourceMap": true,
     "moduleResolution": "node",

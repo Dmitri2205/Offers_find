@@ -4,7 +4,7 @@ const burgerSize = 24;
 
 interface BurgerProps {
   menuOpened: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const Header = styled.header((props) => {
@@ -79,3 +79,20 @@ export const Burger = styled.span<BurgerProps>`
         }
     }
     `;
+
+    export const AsideBlock = styled.div(({menuOpened}:BurgerProps) => {
+  return `
+      display:flex;
+      flex-direction:column;
+      justify-content: center;
+      align-items:center;
+      width:268px;
+      height:100%;
+      position:absolute;
+      z-index:9999;
+      top:0;
+      ${menuOpened ? "left:0" : "left:-268px"};
+      background-color:cyan;
+      transition: all .3s linear;
+    `
+    });

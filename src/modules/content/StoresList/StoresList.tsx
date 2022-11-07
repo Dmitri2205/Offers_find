@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Stores, ListWraper, List } from "./ListStyles";
 import logo5ka from "@icons/logo_5ka.svg";
 import {api} from "@API";
 import { Link } from "react-router-dom";
+import scrollHelper from "@modules/scrollHelper"
 
 export type storesList = {
   address: string;
@@ -22,6 +23,18 @@ type subleaseProps = {
 
 const StoresList = ({ stores }: any) => {
 
+  const storesRef = useRef(null)
+
+  useEffect(()=>{
+    storesRef.current.addEventListener('scroll',scrollHandle,false);
+    // return () => {
+    //   storesRef.current.removeEventListener('scroll',scrollHandle,false);
+    // }
+  },[])
+
+  const scrollHandle = (event:any) => {
+    scrollHelper(event);
+  }
 
   return (
     <Stores>
@@ -30,7 +43,7 @@ const StoresList = ({ stores }: any) => {
         <h4>Магазы</h4>
       </label>
 
-      <ListWraper>
+      <ListWraper ref={storesRef}>
         {stores.length !== 0
           ? stores.map((store: storesList, i: number) => {
               return (

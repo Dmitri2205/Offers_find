@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
 import { ApplicationWraper } from "@styles/global";
 import { api } from "@API";
 import { storesSlice } from './store/reducers/StoresSlice';
 import { useAppDispatch,useAppSelector } from "./hooks/redux";
+import { Aside } from "@modules/header/aside/Aside";
 
 export default function App() {
 
@@ -14,6 +15,7 @@ export default function App() {
 
   const [location, setLocation] = useState<string | any>(null);
   const [mapShown, setMapShown] = useState<boolean>(false);
+  const [menuOpened,setMenuOpened] = useState<boolean>(false)
 
   useEffect((): void=> {
    getGeolocation();
@@ -38,9 +40,7 @@ export default function App() {
   };
 
   useEffect(()=>{
-    if(location){
-      giveMeStores();
-    }
+    if(location) giveMeStores();
   },[location])
 
   const giveMeStores = () => {
@@ -58,9 +58,11 @@ export default function App() {
   }
 
   return (
-    <ApplicationWraper>
-      <Header mapShown={mapShown} setMapShown={setMapShown}/>
-      <Content location={location} mapShown={mapShown}/>
+    <ApplicationWraper id="app-wraper">
+      <Header mapShown={mapShown} setMapShown={setMapShown} setMenuOpened={setMenuOpened} menuOpened={menuOpened}/>
+      <Content location={location} mapShown={mapShown}>
+        <Aside menuOpened={menuOpened}/>
+      </Content>
     </ApplicationWraper>
   );
 }
