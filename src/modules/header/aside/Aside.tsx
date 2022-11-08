@@ -10,16 +10,16 @@ const Aside: React.FC<AsideProps> = ({menuOpened}) => {
     
     const [navLinks] = useState([
         {
+            name:'На главную',
+            url:'/'
+        },
+        {
             name:'На карте',
             url:'/map'
         },
         {
             name:'Категории',
             url:'/categories'
-        },
-        {
-            name:'',
-            url:''
         },
         {
             name:'',

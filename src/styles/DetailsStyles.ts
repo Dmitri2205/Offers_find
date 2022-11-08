@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Card, Button, ListGroup } from "react-bootstrap";
 
 export const DetailsWraper = styled.div`
   display: flex;
@@ -8,6 +9,26 @@ export const DetailsWraper = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   background-color:grey;
+  padding-top:8px;
+  & .CustomCard{
+    width:calc(50% - 4px);
+    font-size:12px;
+    margin-bottom:8px;
+    & .card-body{
+      padding-bottom:4px;
+    }
+    & .card-img-top {
+      width:100px;
+      height:100px;
+      margin:auto;
+    }
+    & .card-title{
+      font-size:.75rem;
+    }
+    & .list-group-item {
+      padding: 4px 0;
+    }
+  }
 `;
 
 export const Detail = styled.div`

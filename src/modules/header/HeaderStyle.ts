@@ -13,7 +13,12 @@ export const Header = styled.header((props) => {
     justify-content:left;
     align-items:center;
     height:${burgerSize + 8}px;;
-    background-color: peachpuff;
+    background-color:#212529;
+    & .navbar {
+      width:100%;
+      padding:0;
+
+    }
     `;
 });
 
@@ -33,8 +38,8 @@ export const Burger = styled.span<BurgerProps>`
     width:${burgerSize}px;
     height:${burgerSize}px;
     border-radius: 8px;
-    background-color:cyan;
-    border:1px solid black;
+    background-color:#212529;
+    border:1px solid slateblue;
     position:relative;
     span{
         display: inline-flex;
@@ -42,7 +47,7 @@ export const Burger = styled.span<BurgerProps>`
         align-items:center;
         width: ${burgerSize - 8}px;
         height: 2px;
-        background-color: black;
+        background-color: slateblue;
         position: relative;
         margin:0;
         padding:0;
@@ -56,7 +61,7 @@ export const Burger = styled.span<BurgerProps>`
             display:inline-flex;
             width:${burgerSize - 8}px;
             height:2px;
-            background-color:black;
+            background-color:slateblue;
             position:absolute;
             border-radius: 100px;
             transition:all .3s ease-in;
@@ -92,12 +97,12 @@ export const Burger = styled.span<BurgerProps>`
       z-index:9999;
       top:0;
       ${menuOpened ? "left:0" : "left:-268px"};
-      background-color:cyan;
+      background-color:#212529;
       transition: all .3s linear;
-      &>a{
+      && > a{
         display:inline-flex;
         margin-bottom:8px;
-        border:1px solid black;
+        color:gainsboro;
       }
     `
     });

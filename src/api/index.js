@@ -41,6 +41,11 @@ class API {
     const params = {include_type:'compilation'};
     return this.requestData("GET",this.v5 + "categories/",params);
   }
+  getStoresAround(bounds){
+    const bbox = `${bounds[0]},${bounds[1]},${bounds[2]},${bounds[3]}`;
+    const params = {bbox};
+    return this.requestData("GET",this.v2 + "stores/",params);
+  }
 }
 
 export const api = new API();

@@ -52,14 +52,14 @@ export const MainMap: React.FC =  () => {
         </LayersControl>
         {stores.length !== 0 ?
         stores.map((store, i) => {
-          const { lat, lon, address, work_end_time } = store;
+          const { coordinates, address, work_end_time } = store;
           const untillTime = new Date();
           const s = work_end_time.split(":");
           untillTime.setHours(s[0]);
           untillTime.setMinutes(s[1]);
           untillTime.setSeconds(s[2]);
           return (
-            <Marker position={[lat, lon]} icon={icon} key={`storeIcon${i}`}>
+            <Marker position={[coordinates[0], coordinates[1]]} icon={icon} key={`storeIcon${i}`}>
               <Popup>
                 {address}
                 <br />

@@ -28,6 +28,16 @@ export const ListWraper = styled.div`
   height: 99.6vh;
   flex-wrap: wrap;
   overflow:auto;
+  & .spinner-border {
+    width:100px;
+    height:100px;
+    margin: auto;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+  }
 `;
 
 const blink = keyframes`

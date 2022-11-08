@@ -1,11 +1,12 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Stores, ListWraper, List } from "./ListStyles";
 import logo5ka from "@icons/logo_5ka.svg";
 import { api } from "@API";
 import { storesSlice } from "../../../store/reducers/StoresSlice";
 import { Link, Route } from "react-router-dom";
-import scrollHelper from "@modules/scrollHelper"
-import { useAppSelector,useAppDispatch  } from "../../../hooks";
+import scrollHelper from "@modules/scrollHelper";
+import { useAppSelector, useAppDispatch } from "../../../hooks";
+import { Spinner } from "react-bootstrap";
 
 export type storesList = {
   storesReducer: any;
@@ -25,10 +26,12 @@ type subleaseProps = {
 };
 
 const StoresList = () => {
-  const {setStores } = storesSlice.actions;
+  const { setStores } = storesSlice.actions;
   const { stores } = useAppSelector((state) => state.storesReducer); //селектор магазинов
   const { coords } = useAppSelector((state) => state.coordsReducer); //селектор координат
   const dispatch = useAppDispatch(); // диспатч сеттера для редуктора
+
+  const [loading, isLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (coords.length !== 0) giveMeStores();
@@ -36,29 +39,47 @@ const StoresList = () => {
 
   const giveMeStores = () => {
     if (stores.length === 0) {
-      const stores = api.getStoresInLocation(coords);
+      isLoading(true);
+      const stores = api.getStoresAround(coords.bounds);
       stores
         .then((res: any) => {
-          const { results } = res.data;
-          dispatch(setStores(results));
+          let result = res.data;
+          result = result.replace(/^\w+[callback(]/gm, '' )
+          result = result.slice(0,-2);
+          JSON.stringify(result)
+          
+          const data = JSON.parse(result).data;
+          const {features} = data;
+          let normalizedResponse = []
+          for(let el of features){
+            const normalizedItem = {
+              ...el.properties,
+              coordinates:el.geometry.coordinates,
+              sap_code:el.sap_code,
+
+            }
+            normalizedResponse.push(normalizedItem);
+          }
+          console.log(normalizedResponse)
+          dispatch(setStores(normalizedResponse))
         })
         .catch((error) => {
           console.log(error.message);
+        })
+        .finally(() => {
+          isLoading(false);
         });
     }
   };
-  const storesRef = useRef(null)
+  const storesRef = useRef(null);
 
-  useEffect(()=>{
-    storesRef.current.addEventListener('scroll',scrollHandle,false);
-    // return () => {
-    //   storesRef.current.removeEventListener('scroll',scrollHandle,false);
-    // }
-  },[])
+  useEffect(() => {
+    storesRef.current.addEventListener("scroll", scrollHandle, false);
+  }, []);
 
-  const scrollHandle = (event:any) => {
+  const scrollHandle = (event: any) => {
     scrollHelper(event);
-  }
+  };
 
   return (
     <Stores>
@@ -68,11 +89,13 @@ const StoresList = () => {
       </label>
 
       <ListWraper ref={storesRef}>
-        {stores.length !== 0
-          ? stores.map((store: storesList, i: number) => {
-              return (
-                <List key={`${store.sap_code}i`}>
-                    <Link to={`store/${store.sap_code}`}>
+        {loading ? (
+          <Spinner animation="border" variant="info" />
+        ) : stores.length !== 0 ? (
+          stores.map((store: storesList, i: number) => {
+            return (
+              <List key={`${store.sap_code}i`}>
+                <Link to={`store/${store.sap_code}`}>
                   <h4>{store.address}</h4>
                   <p>
                     <span>
@@ -99,11 +122,11 @@ const StoresList = () => {
                   {store.state === "active" ? (
                     <span className="active"></span>
                   ) : null}
-                  </Link>
-                </List>
-              );
-            })
-          : null}
+                </Link>
+              </List>
+            );
+          })
+        ) : null}
       </ListWraper>
     </Stores>
   );

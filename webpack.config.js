@@ -102,7 +102,7 @@ module.exports = (env) => {
       filename: "bundle.js",
       path: path.resolve(__dirname, "dist"),
       assetModuleFilename: "assets/[name][hash][ext]",
-      clean: true,
+      publicPath:"/"
     },
     devServer: {
       hot: true,

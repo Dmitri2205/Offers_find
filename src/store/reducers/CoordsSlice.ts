@@ -18,9 +18,9 @@ const getLocation = () => {
         const {coords:{latitude,longitude}} = position;
         const bounds = [
           latitude,
-          latitude + 0.2,
           longitude,
-          longitude + 0.2
+          latitude + 0.25,
+          longitude + 0.25
         ];
         const points = {center:{latitude,longitude},bounds}
         resolve(points),reject
