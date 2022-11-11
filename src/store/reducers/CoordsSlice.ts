@@ -14,13 +14,14 @@ const initialState: CoordsState = {
 const getLocation = () => {
     return new Promise((resolve,reject)=>{
       if(!navigator.geolocation) reject("Geolocation is not supported");
-      navigator.geolocation.getCurrentPosition((position)=>{
+      navigator.geolocation.getCurrentPosition((position: GeolocationPosition)=>{
+        console.log(position);
         const {coords:{latitude,longitude}} = position;
         const bounds = [
-          latitude,
-          longitude,
-          latitude + 0.25,
-          longitude + 0.25
+          latitude - .0111,
+          longitude - .0111,
+          latitude + .0111,
+          longitude + .0111,
         ];
         const points = {center:{latitude,longitude},bounds}
         resolve(points),reject
@@ -28,19 +29,42 @@ const getLocation = () => {
     })
 }
 
+
+
+const watchUserLocation = () => {
+
+  const success = (pos: GeolocationPosition) => {
+    console.log(pos)
+  }
+
+  const error = (err: any) => {
+    console.log(err)
+  }
+
+  if(navigator.geolocation){
+    navigator.geolocation.watchPosition(success,error)
+  }
+}
+
 export const getUserGeolocation = createAsyncThunk(
   "coords/getUserGeolocation",
   getLocation
+  // watchUserLocation
 );
 
 export const coordsSlice = createSlice({
   name: "coords",
   initialState,
   reducers: {
-    //стандартный редуктор
-    // setCoords(state,action: PayloadAction<any>){
-    //     state.coords = action.payload;
-    // }
+    setLocationBounds(state,action: PayloadAction<any>){
+      let newBounds = [...state.coords.bounds];
+      const {bounds} = state.coords;
+      const type = action.payload;
+      if(type === "все"){
+        
+      }
+      state.coords.bounds = newBounds
+    }
   },
   extraReducers: (builder) => {
     builder

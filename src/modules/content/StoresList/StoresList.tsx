@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef,useMemo } from "react";
 import { Stores, ListWraper, List } from "./ListStyles";
 import logo5ka from "@icons/logo_5ka.svg";
-import { api } from "@API";
-import { storesSlice } from "../../../store/reducers/StoresSlice";
-import { Link, Route } from "react-router-dom";
-import scrollHelper from "@modules/scrollHelper";
+import { coordsSlice } from "../../../store/reducers/CoordsSlice";
 import { useAppSelector, useAppDispatch } from "../../../hooks";
-import { Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import scrollHelper from "@modules/scrollHelper";
+import { Button, ButtonGroup, Spinner } from "react-bootstrap";
 
 export type storesList = {
   storesReducer: any;
@@ -26,51 +25,14 @@ type subleaseProps = {
 };
 
 const StoresList = () => {
-  const { setStores } = storesSlice.actions;
+  // const { setStores } = storesSlice.actions;
+  const { setLocationBounds} = coordsSlice.actions;
   const { stores } = useAppSelector((state) => state.storesReducer); //селектор магазинов
-  const { coords } = useAppSelector((state) => state.coordsReducer); //селектор координат
   const dispatch = useAppDispatch(); // диспатч сеттера для редуктора
 
-  const [loading, isLoading] = useState<boolean>(false);
+  const [locationType,setLocationType] = useState<string>('ближайшие');
 
-  useEffect(() => {
-    if (coords.length !== 0) giveMeStores();
-  }, [coords]);
 
-  const giveMeStores = () => {
-    if (stores.length === 0) {
-      isLoading(true);
-      const stores = api.getStoresAround(coords.bounds);
-      stores
-        .then((res: any) => {
-          let result = res.data;
-          result = result.replace(/^\w+[callback(]/gm, '' )
-          result = result.slice(0,-2);
-          JSON.stringify(result)
-          
-          const data = JSON.parse(result).data;
-          const {features} = data;
-          let normalizedResponse = []
-          for(let el of features){
-            const normalizedItem = {
-              ...el.properties,
-              coordinates:el.geometry.coordinates,
-              sap_code:el.sap_code,
-
-            }
-            normalizedResponse.push(normalizedItem);
-          }
-          console.log(normalizedResponse)
-          dispatch(setStores(normalizedResponse))
-        })
-        .catch((error) => {
-          console.log(error.message);
-        })
-        .finally(() => {
-          isLoading(false);
-        });
-    }
-  };
   const storesRef = useRef(null);
 
   useEffect(() => {
@@ -81,51 +43,68 @@ const StoresList = () => {
     scrollHelper(event);
   };
 
+  const switchHandler = (type: string): void => {
+    type = type.toLowerCase();
+    setLocationType(type);
+    dispatch(setLocationBounds(type))
+  }
+
+  const renderList = useMemo(()=>{
+    return  stores.map((store: storesList, i: number) => {
+      return (
+        <List key={`${store.sap_code}i`}>
+          <Link to={`store/${store.sap_code}`}>
+            <h4>{store.address}</h4>
+            <p>
+              <span>
+                {store.work_start_time} - {store.work_end_time}
+              </span>
+            </p>
+            {store.store_sublease ? (
+              <div>
+                {store.store_sublease.map(
+                  (item: subleaseProps, i: number) => {
+                    const itemType = item.type_name.toLowerCase();
+                    if (itemType === "банкомат" || itemType === "кафе") {
+                      return (
+                        <label key={`fig${i}`}>
+                          <img src={item.type_icon} />
+                          <span>{item.type_name}</span>
+                        </label>
+                      );
+                    }
+                  }
+                )}
+              </div>
+            ) : null}
+            {store.state === "active" ? (
+              <span className="active"></span>
+            ) : null}
+          </Link>
+        </List>
+      );
+    })
+  },[stores])
+
   return (
-    <Stores>
+    <Stores className="stores-component">
       <label>
         <img src={logo5ka}></img>
-        <h4>Магазы</h4>
+        <h4>{`${locationType === 'все' ? 'Все' : 'Ближайшие к Вам'} магазины`}</h4>
       </label>
-
-      <ListWraper ref={storesRef}>
-        {loading ? (
-          <Spinner animation="border" variant="info" />
-        ) : stores.length !== 0 ? (
-          stores.map((store: storesList, i: number) => {
-            return (
-              <List key={`${store.sap_code}i`}>
-                <Link to={`store/${store.sap_code}`}>
-                  <h4>{store.address}</h4>
-                  <p>
-                    <span>
-                      {store.work_start_time} - {store.work_end_time}
-                    </span>
-                  </p>
-                  {store.store_sublease ? (
-                    <div>
-                      {store.store_sublease.map(
-                        (item: subleaseProps, i: number) => {
-                          const itemType = item.type_name.toLowerCase();
-                          if (itemType === "банкомат" || itemType === "кафе") {
-                            return (
-                              <label key={`fig${i}`}>
-                                <img src={item.type_icon} />
-                                <span>{item.type_name}</span>
-                              </label>
-                            );
-                          }
-                        }
-                      )}
-                    </div>
-                  ) : null}
-                  {store.state === "active" ? (
-                    <span className="active"></span>
-                  ) : null}
-                </Link>
-              </List>
-            );
+      <ButtonGroup aria-label="Button group">
+        {
+          ["Ближайшие","Все"].map((type: string,i)=>{
+            return(
+              <Button variant="secondary" onClick={e=>switchHandler(type)} key={`type${i}`}>{type}</Button>
+            )
           })
+        }
+      </ButtonGroup>
+
+      <ListWraper ref={storesRef} className="stores-list-wraper">
+        {stores.length !== 0 ? (
+         renderList
         ) : null}
       </ListWraper>
     </Stores>
@@ -133,3 +112,7 @@ const StoresList = () => {
 };
 
 export default StoresList;
+function setLocationBounds(type: string): any {
+  throw new Error("Function not implemented.");
+}
+

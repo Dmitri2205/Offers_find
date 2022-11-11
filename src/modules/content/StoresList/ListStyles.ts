@@ -1,4 +1,7 @@
 import styled, { keyframes } from "styled-components";
+import { AppColors } from "@styles/global";
+
+const {gray} = AppColors;
 
 export const Stores = styled.div`
   display: flex;
@@ -7,6 +10,9 @@ export const Stores = styled.div`
   width: 100%;
   height:100%;
   padding: 0 12px;
+  & .btn-group{
+    margin:0 auto 8px auto;
+  }
   & > label {
     display: flex;
     justify-content: center;
@@ -27,7 +33,11 @@ export const ListWraper = styled.div`
   width: 100%;
   height: 99.6vh;
   flex-wrap: wrap;
-  overflow:auto;
+  overflow-y:auto;
+  &::-webkit-scrollbar {
+    width:0
+  }
+  & { -ms-overflow-style: none; }
   & .spinner-border {
     width:100px;
     height:100px;
@@ -56,11 +66,12 @@ export const List = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow:1;
   margin: 0 6px;
   width: calc(25% - 14px);
   height: 120px;
   text-align: center;
-  border: 1px solid gray;
+  border: 1px solid ${gray};
   border-radius: 10px;
   margin-bottom: 10px;
   position: relative;
@@ -75,12 +86,13 @@ export const List = styled.div`
     align-items: center;
     min-height: 36px;
     margin-top: 4px;
+    font-size:14px;
   }
   @media (max-width: 768px) {
     width: calc(25% - 26px);
   }
-  @media (max-width: 568px) {
-    width: calc(33.3% - 26px);
+  @media (max-width: 414px) {
+    width: calc(50% - 26px);
   }
   @media (max-width: 390px) {
     width: calc(100% - 14px);

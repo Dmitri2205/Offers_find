@@ -49,7 +49,7 @@ const rules = [
           "@babel/preset-react",
           "@babel/preset-typescript",
         ],
-        cacheDirectory: "true",
+        // cacheDirectory: "false",
       },
     },
   },
@@ -95,19 +95,19 @@ module.exports = (env) => {
         "@API": path.resolve(__dirname, "src/api"),
         "@store": path.resolve(__dirname, "src/store"),
         "@icons": path.resolve(__dirname, "src/images/icons"),
-        "@hooks": path.resolve(__dirname,"src/hooks")
+        "@hooks": path.resolve(__dirname, "src/hooks"),
       },
     },
     output: {
       filename: "bundle.js",
       path: path.resolve(__dirname, "dist"),
       assetModuleFilename: "assets/[name][hash][ext]",
-      publicPath:"/"
+      publicPath: "/",
     },
     devServer: {
       hot: true,
       https: true,
-      historyApiFallback:true
+      historyApiFallback: true,
     },
     devtool: "inline-source-map",
   };

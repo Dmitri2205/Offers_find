@@ -4,10 +4,17 @@ import { useAppSelector, useAppDispatch } from "../hooks";
 import { storesSlice } from "../store/reducers/StoresSlice";
 import { storesList } from "./content/StoresList/StoresList";
 import { api } from "@API";
-import { Detail, DetailsWraper } from "@styles/DetailsStyles";
+import { DetailsWraper } from "@styles/DetailsStyles";
 import * as moment from "moment";
 import scrollHelper from "./scrollHelper";
-import { Card, Button, ListGroup } from "react-bootstrap";
+import {
+  Card,
+  Button,
+  ListGroup,
+  OverlayTrigger,
+  Popover,
+  Spinner,
+} from "react-bootstrap";
 
 type offersType = {
   offers: any;
@@ -69,24 +76,58 @@ const StoreDetails = (props: any) => {
           <Card className="CustomCard" key={`item${i}`}>
             <Card.Img variant="top" src={img_link} />
             <Card.Body>
-              <Card.Title>{name}</Card.Title>
-              <Card.Text>Акция закончится {moment().to(promo.date_end)}</Card.Text>
+              {name.length > 48 ? (
+                <OverlayTrigger
+                  trigger="click"
+                  key={`top${i}`}
+                  placement={"top"}
+                  overlay={
+                    <Popover id={"popover-positioned-top"}>
+                      <Popover.Body>{name}</Popover.Body>
+                    </Popover>
+                  }
+                >
+                  <Card.Title>{name}</Card.Title>
+                </OverlayTrigger>
+              ) : (
+                <Card.Title>{name}</Card.Title>
+              )}
+              <Card.Text>
+                Акция закончится {moment().to(promo.date_end)}
+              </Card.Text>
               <ListGroup className="list-group-flush">
-                <ListGroup.Item>Цена по скидке: {current_prices.price_promo__min}</ListGroup.Item>
-                <ListGroup.Item>Цена без скидки: {current_prices.price_reg__min}</ListGroup.Item>
-                <ListGroup.Item>{"Экономим: " + (Number(current_prices.price_reg__min) - Number(current_prices.price_promo__min)).toFixed(2) + "₽"}</ListGroup.Item>
+                <ListGroup.Item>
+                  Цена по скидке: {current_prices.price_promo__min}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Цена без скидки: {current_prices.price_reg__min}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  {"Экономим: " +
+                    (
+                      Number(current_prices.price_reg__min) -
+                      Number(current_prices.price_promo__min)
+                    ).toFixed(2) +
+                    "₽"}
+                </ListGroup.Item>
               </ListGroup>
             </Card.Body>
           </Card>
         );
       });
+      return arr;
     }
-    return arr;
   };
 
   return (
     <DetailsWraper ref={ItemsList}>
-      {loading ? <p>Обожди...</p> : renderOffers()}
+      {loading ? (
+        <Spinner animation="border" variant="info" />
+      ) : !loading && stores[storeIndex]?.offers.length === 0 ? (
+        <h4>Кажется, в этом магазине нет акционных товаров</h4>
+      ) : (
+        renderOffers()
+      )}
     </DetailsWraper>
   );
 };

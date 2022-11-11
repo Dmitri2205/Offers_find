@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Header as Head,
   Burger,
-  Navigation,
 } from "@modules/header/HeaderStyle";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
@@ -16,9 +15,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({
-  isLogedIn,
-  mapShown,
-  setMapShown,
   setMenuOpened,
   menuOpened,
 }) => {

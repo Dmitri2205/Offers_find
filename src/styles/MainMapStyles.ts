@@ -2,8 +2,11 @@ import styled from "styled-components";
 
 export const MainMapContainer = styled.div`
 width:100%;
-height:100%;
-div.leaflet-container{
+height:100vh;
+& div.leaflet-control-attribution{
+    display:none;
+}
+& div.leaflet-container{
     width:100%;
     height:100%;
 }

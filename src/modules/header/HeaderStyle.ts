@@ -1,4 +1,7 @@
 import styled, { keyframes } from "styled-components";
+import { AppColors } from "@styles/global";
+
+const {purple,gray} = AppColors;
 
 const burgerSize = 24;
 
@@ -13,9 +16,10 @@ export const Header = styled.header((props) => {
     justify-content:left;
     align-items:center;
     height:${burgerSize + 8}px;;
-    background-color:#212529;
+    background-color:${gray};
     & .navbar {
       width:100%;
+      height:100%;
       padding:0;
 
     }
@@ -38,7 +42,7 @@ export const Burger = styled.span<BurgerProps>`
     width:${burgerSize}px;
     height:${burgerSize}px;
     border-radius: 8px;
-    background-color:#212529;
+    background-color:${gray};
     border:1px solid slateblue;
     position:relative;
     span{
@@ -61,7 +65,7 @@ export const Burger = styled.span<BurgerProps>`
             display:inline-flex;
             width:${burgerSize - 8}px;
             height:2px;
-            background-color:slateblue;
+            background-color:${purple};
             position:absolute;
             border-radius: 100px;
             transition:all .3s ease-in;
@@ -96,8 +100,9 @@ export const Burger = styled.span<BurgerProps>`
       position:absolute;
       z-index:9999;
       top:0;
+      padding-left:8px;
       ${menuOpened ? "left:0" : "left:-268px"};
-      background-color:#212529;
+      background-color:${gray};
       transition: all .3s linear;
       && > a{
         display:inline-flex;

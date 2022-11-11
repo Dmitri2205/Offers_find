@@ -1,29 +1,35 @@
 import styled from "styled-components";
-import { Card, Button, ListGroup } from "react-bootstrap";
+import { AppColors } from "./global";
+
 
 export const DetailsWraper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   justify-content: space-between;
   flex-wrap: wrap;
-  background-color:grey;
-  padding-top:8px;
-  & .CustomCard{
-    width:calc(50% - 4px);
-    font-size:12px;
-    margin-bottom:8px;
-    & .card-body{
-      padding-bottom:4px;
+  background-color: grey;
+  padding-top: 8px;
+  & .CustomCard {
+    width: calc(50% - 4px);
+    font-size: 12px;
+    margin-bottom: 8px;
+    & .card-body {
+      padding-bottom: 4px;
     }
     & .card-img-top {
-      width:100px;
-      height:100px;
-      margin:auto;
+      width: 100px;
+      height: 100px;
+      margin: auto;
     }
-    & .card-title{
-      font-size:.75rem;
+    & .card-title {
+      font-size: 0.75rem;
+      max-height: 27px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor:pointer;
     }
     & .list-group-item {
       padding: 4px 0;
