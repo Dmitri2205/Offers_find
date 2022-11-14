@@ -1,46 +1,66 @@
-import React,{useState} from "react";
-import { Link } from "react-router-dom";
-import {AsideBlock} from "../HeaderStyle"
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { AsideBlock } from "../HeaderStyle";
 
 interface AsideProps {
-    menuOpened?: boolean;
+  menuOpened?: boolean;
 }
 
-const Aside: React.FC<AsideProps> = ({menuOpened}) => {
-    
-    const [navLinks] = useState([
-        {
-            name:'На главную',
-            url:'/'
-        },
-        {
-            name:'На карте',
-            url:'/map'
-        },
-        {
-            name:'Категории',
-            url:'/categories'
-        },
-        {
-            name:'',
-            url:''
-        },
-        {
-            name:'',
-            url:''
-        },
-    ]);
+const Aside: React.FC<AsideProps> = ({ menuOpened }) => {
+  const asideMenu = useRef<null | HTMLDivElement>(null);
 
-    return (
-        <AsideBlock menuOpened={menuOpened}>
-            {
-                navLinks.map((link,i)=>{
-                    const {name,url} = link
-                    return(<Link to={url} key={`navLink${i}`}>{name}</Link>)
-                })
-            }
-        </AsideBlock>
-    )
-}
+  const [navLinks] = useState([
+    {
+      name: "На главную",
+      url: "/",
+    },
+    {
+      name: "На карте",
+      url: "/map",
+    },
+    {
+      name: "Категории",
+      url: "/categories",
+    },
+    {
+      name: "",
+      url: "",
+    },
+    {
+      name: "",
+      url: "",
+    },
+  ]);
+
+  const asideClickHandler = (e: Event) => {
+    const { target,currentTarget } = e;
+    // if (currentTarget === "aside-menu") {
+    // }
+  };
+
+  useEffect(() => {
+    const { current } = asideMenu;
+    current.addEventListener("click", asideClickHandler);
+    return () => {
+      current.removeEventListener("click", asideClickHandler);
+    };
+  }, []);
+
+  const location = useLocation();
+
+  return (
+    <AsideBlock menuOpened={menuOpened} ref={asideMenu} id="aside_menu">
+      {navLinks.map((link, i) => {
+        const { name, url } = link;
+        return (
+          <Link to={url} key={`navLink${i}`}>
+            {name}
+          </Link>
+        );
+      })}
+      <p>By Dmitry Baranov ©</p>
+    </AsideBlock>
+  );
+};
 
 export default Aside;

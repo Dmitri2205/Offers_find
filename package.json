@@ -6,7 +6,9 @@
   "scripts": {
     "test": "test",
     "start": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,8 @@
   "bugs": {
     "url": "https://github.com/Dmitri2205/React_underground/issues"
   },
-  "homepage": "https://github.com/Dmitri2205/React_underground#readme",
+  "homepage": "https://Dmitri2205.github.io/React_underground",
+  "private":true,
   "browserslist": [
     ">1%"
   ],
@@ -33,6 +36,7 @@
     "babel-loader": "^9.0.0",
     "css-loader": "^6.7.1",
     "dotenv-webpack": "^8.0.1",
+    "gh-pages": "^4.0.0",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "install": "^0.13.0",

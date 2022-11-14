@@ -31,7 +31,7 @@ export const ListWraper = styled.div`
   display: flex;
   justify-content: left;
   width: 100%;
-  height: 99.6vh;
+  height: 100%;
   flex-wrap: wrap;
   overflow-y:auto;
   &::-webkit-scrollbar {

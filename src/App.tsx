@@ -37,9 +37,10 @@ export default function App() {
         setMapShown={setMapShown}
         setMenuOpened={setMenuOpened}
         menuOpened={menuOpened}
-      />
-      <Content>
+      >
         <Aside menuOpened={menuOpened} />
+      </Header>
+      <Content>
         <Routes>
           <Route index element={<StoresList/>} />
           <Route path="store/:storeSap" element={<StoreDetails/>}/>

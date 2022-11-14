@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-
+import { burgerSize } from "@modules/header/HeaderStyle";
 
 export const AppColors = {
   gray:'#212529',
@@ -22,5 +22,6 @@ export const ApplicationWraper = styled.div((props): string => {
     display:block;
     height:auto;
     background-color: ${AppColors.gray};
+    margin-top:${burgerSize};
     `;
 });
