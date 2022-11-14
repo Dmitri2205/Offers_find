@@ -1,3 +1,4 @@
+export declare const burgerSize = 24;
 interface BurgerProps {
     menuOpened: boolean;
     onClick?: () => void;

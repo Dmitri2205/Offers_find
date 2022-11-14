@@ -61,6 +61,7 @@ declare function _exports(env: any): {
             "@store": string;
             "@icons": string;
             "@hooks": string;
+            "@portals": string;
         };
     };
     output: {
