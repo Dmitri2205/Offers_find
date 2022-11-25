@@ -68,7 +68,6 @@ declare function _exports(env: any): {
         filename: string;
         path: string;
         assetModuleFilename: string;
-        publicPath: string;
     };
     devServer: {
         hot: boolean;
