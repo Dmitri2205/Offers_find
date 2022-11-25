@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from "react";
+import React,{ useState, useEffect,useRef } from "react";
 import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
 import Aside  from "@modules/header/aside/Aside";
@@ -20,8 +20,27 @@ export default function App() {
   const [mapShown, setMapShown] = useState<boolean>(false);
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
 
-  useEffect((): void => {
+  const asideMenu = useRef(null);
+
+  useEffect(() => {
     dispatch(getUserGeolocation());
+    const { current } = asideMenu;
+    console.log(current)
+    current.addEventListener("click", asideClickHandler);
+    return () => {
+      current.removeEventListener("click", asideClickHandler);
+    };
+  }, []);
+
+  const asideClickHandler = (e: Event) => {
+    const { target,currentTarget } = e;
+    console.log(e)
+    // if (target.classList.contain("aside-menu")) {
+    // }
+  };
+
+  useEffect(() => {
+    
   }, []);
   
   useEffect(() => {
@@ -38,7 +57,7 @@ export default function App() {
         setMenuOpened={setMenuOpened}
         menuOpened={menuOpened}
       >
-        <Aside menuOpened={menuOpened} />
+        <Aside menuOpened={menuOpened} childRef={asideMenu}/>
       </Header>
       <Content>
         <Routes>

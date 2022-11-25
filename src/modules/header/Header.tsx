@@ -1,11 +1,13 @@
-import React from "react";
+import React, { JSXElementConstructor, SyntheticEvent, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   Header as Head,
-  Burger,
+  Burger
 } from "@modules/header/HeaderStyle";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import backButton from "@icons/back_button.svg"
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import TeleportedButton from "../../portals/BackButton";
+import backButton from '@icons/back_button.svg';
 
 interface HeaderProps {
   isLogedIn?: boolean;
@@ -16,16 +18,23 @@ interface HeaderProps {
   children?: React.ReactNode;
 }
 
+
 const Header: React.FC<HeaderProps> = ({
   setMenuOpened,
   menuOpened,
-  children
+  children,
 }) => {
+  const {pathname}  = useLocation();
+
   const menuHandler = (): void => {
     setMenuOpened(!menuOpened);
   };
-  const {pathname} =useLocation();
 
+  const navigate = useNavigate();
+
+  const backButtonHandler = (e: React.MouseEvent<HTMLElement>) => {
+    navigate(-1)
+  };
 
   return (
     <Head>
@@ -36,9 +45,11 @@ const Header: React.FC<HeaderProps> = ({
           </Burger>
           {
             pathname !== "/" ?
+            <TeleportedButton clickHandler={backButtonHandler}>
             <img src={backButton} alt="back_button"/>
-            :
-            null
+          </TeleportedButton>
+          :
+          null
           }
           <Nav className="me-auto">
             {/* <Nav.Link href="#home">Home</Nav.Link>

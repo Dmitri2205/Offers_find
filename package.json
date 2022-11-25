@@ -7,8 +7,8 @@
     "test": "test",
     "start": "webpack serve",
     "build": "webpack",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d dist"
+    "predeploy":"npm run build --production",
+    "deploy":"gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/Dmitri2205/React_underground/issues"
   },
-  "homepage": "https://Dmitri2205.github.io/React_underground",
+  "homepage": "https://dmitri2205.github.io/React_underground",
   "private":true,
   "browserslist": [
     ">1%"

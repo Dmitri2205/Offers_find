@@ -11,7 +11,7 @@ class API {
 
   requestData = (method, url, params, funcName ) => {
     const headers = { 
-      "Accept": "*/*",
+      "Accept": "application/json , */*",
     };
     return axios({
       method,

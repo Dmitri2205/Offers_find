@@ -99,6 +99,7 @@ export const Burger = styled.span<BurgerProps>`
   }
 `;
 
+
 export const AsideBlock = styled.div(({ menuOpened }: BurgerProps) => {
   return `
       display:flex;
@@ -129,6 +130,9 @@ export const AsideBlock = styled.div(({ menuOpened }: BurgerProps) => {
         position:absolute;
         bottom:0;
         left:0;
+      }
+      & > #category-dropdown{
+        padding:0;
       }
     `;
 });

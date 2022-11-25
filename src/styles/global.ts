@@ -14,6 +14,25 @@ html,body,p,span,h1,h2,h3,h4,h5,h6,figure {
 }
 body{
   background-color:${AppColors.gray};
+  & .teleportedButton {
+    display:inline-flex;
+    width:28px;
+    height:28px;
+    border:1px solid ${AppColors.purple};
+    background-color:${AppColors.gray};
+    border-radius:50%;
+    position:fixed;
+    right:16px;
+    bottom:16px;
+    padding:0;
+    overflow:hidden;
+    box-shadow: 0px 0px 5px ${AppColors.cream};
+    z-index:9999;
+    & > img{
+      width:100%;
+      height:100%;
+    }
+  }
 }
 `;
 
@@ -22,6 +41,5 @@ export const ApplicationWraper = styled.div((props): string => {
     display:block;
     height:auto;
     background-color: ${AppColors.gray};
-    margin-top:${burgerSize};
     `;
 });
