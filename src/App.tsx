@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "./hooks";
 import { getUserGeolocation } from './store/reducers/CoordsSlice';
 import { Route, Routes } from "react-router-dom";
 import { MainMap } from './modules/Map/MainMap';
+import { NotSupportedDevice } from "@modules/content/ContentStyles";
 
 export default function App() {
   // const { setStores } = storesSlice.actions; //сеттер магазинов
@@ -51,6 +52,7 @@ export default function App() {
   return (
 
     <ApplicationWraper>
+      <Content>
       <Header
         mapShown={mapShown}
         setMapShown={setMapShown}
@@ -59,13 +61,15 @@ export default function App() {
       >
         <Aside menuOpened={menuOpened} childRef={asideMenu}/>
       </Header>
-      <Content>
         <Routes>
           <Route index element={<StoresList/>} />
           <Route path="store/:storeSap" element={<StoreDetails/>}/>
           <Route path="map" element={<MainMap/>}/>
         </Routes>
       </Content>
+      <NotSupportedDevice>
+        <h1>Ваше устройство не поддерживается. Откройте приложение с мобильного устройства</h1>
+      </NotSupportedDevice>
     </ApplicationWraper>
   );
 }
