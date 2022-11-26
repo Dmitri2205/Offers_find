@@ -15,6 +15,7 @@ import {
   Popover,
   Spinner,
 } from "react-bootstrap";
+import { callToaster } from '../hooks/useToaster';
 
 type offersType = {
   offers: any;

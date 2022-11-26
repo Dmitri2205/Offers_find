@@ -10,6 +10,7 @@ interface AsideProps {
 }
 
 const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
+  
   useEffect(() => {
     api
       .getDiscountsCategories()
@@ -81,7 +82,6 @@ const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
               {
                 link.children.map((child,j,i)=>{
                   const {name,url} = child;
-                  console.log(`item${j}OfCategory${i}`)
                   return(
                     <Dropdown.Item key={`item${j}OfCategory${i}`} onClick={(e)=>{setSelectedCategory(child)}}>{name}</Dropdown.Item>
                     )

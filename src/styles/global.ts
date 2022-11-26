@@ -4,7 +4,8 @@ import { burgerSize } from "@modules/header/HeaderStyle";
 export const AppColors = {
   gray:'#212529',
   purple:'slateblue',
-  cream:'gainsboro'
+  cream:'gainsboro',
+  orange:'darkorange'
 }
 
 export const GlobalStyle = createGlobalStyle`

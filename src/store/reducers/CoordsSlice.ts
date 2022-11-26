@@ -60,9 +60,6 @@ export const coordsSlice = createSlice({
       let newBounds = [...state.coords.bounds];
       const {bounds} = state.coords;
       const type = action.payload;
-      if(type === "все"){
-        
-      }
       state.coords.bounds = newBounds
     }
   },
