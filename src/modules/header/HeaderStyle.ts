@@ -123,6 +123,13 @@ export const AsideBlock = styled.div(({ menuOpened }: BurgerProps) => {
         margin-bottom:8px;
         color:gainsboro;
         text-decoration:none;
+        & .link-icon {
+          display:inline-flex;
+          font-size:8px;
+          & > img{
+            margin:0
+          }
+        }
       }
       & > p{
         font-size:8px;

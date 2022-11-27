@@ -38,16 +38,6 @@ export const ListWraper = styled.div`
     width:0
   }
   & { -ms-overflow-style: none; }
-  & .spinner-border {
-    width:100px;
-    height:100px;
-    margin: auto;
-    position:absolute;
-    top:0;
-    right:0;
-    left:0;
-    bottom:0;
-  }
 `;
 
 const blink = keyframes`

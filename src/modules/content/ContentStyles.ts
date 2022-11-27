@@ -7,6 +7,7 @@ export const Content = styled.main`
 display:block;
 width:100%;
 height:100%;
+min-height:50vh;
 position:relative;
 @media (min-width:1025px){
     display:none;
@@ -14,6 +15,16 @@ position:relative;
 a{
     color:black;
     text-decoration:none;
+}
+& .spinner-border {
+  width:100px;
+  height:100px;
+  margin: auto;
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
 }
 `
 

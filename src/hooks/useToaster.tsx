@@ -19,6 +19,10 @@ import { AppColors } from "@styles/global";
                 break;
             case "succsess":
                 toast.style.backgroundColor = "emerlad";
+                break;
+            case "error":
+                toast.style.backgroundColor = "crimson";
+                break;
             default:
                 toast.style.backgroundColor = "white";
         }

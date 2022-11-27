@@ -122,9 +122,11 @@ const StoresList = () => {
       </ButtonGroup>
 
       <ListWraper ref={storesRef} className="stores-list-wraper">
-        {stores.length !== 0 ? (
+        {
+        stores.length !== 0 ? 
          renderList
-        ) : null}
+         : null
+        }
       </ListWraper>
     </Stores>
   );

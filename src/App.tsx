@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React,{ useState, useEffect, useRef, useLayoutEffect } from "react";
 import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
 import Aside from "@modules/header/aside/Aside";
@@ -13,6 +13,7 @@ import { NotSupportedDevice } from "@modules/content/ContentStyles";
 import { Button, Spinner } from "react-bootstrap";
 import { callToaster, mountToast } from './hooks/useToaster';
 import StoresList from "@modules/content/StoresList/StoresList";
+import ScanProduct from "@modules/ScanProduct";
 
 
 export default function App() {
@@ -41,6 +42,9 @@ useLayoutEffect(()=>{
     console.log(locationState);
     if(locationState === "prompt"){
       callToaster("warning","Включите геолокацию")
+    }
+    if(locationState === "denied" ){
+      callToaster("error","Вам нужно разрешить использование геолокации")
     }
     if(locationState === "granted"){
       dispatch(getUserGeolocation());
@@ -85,11 +89,19 @@ useLayoutEffect(()=>{
             <Route index element={<StoresList />} />
             <Route path="store/:storeSap" element={<StoreDetails />} />
             <Route path="map" element={<MainMap />} />
+            <Route path="scan" element={<ScanProduct/>}/>
           </Routes>
         )}
         {
-          locationState === "prompt" ?
-          <Button style={{backgroundColor:AppColors.purple}} onClick={(e:any)=> dispatch(getUserGeolocation())}>Включить геолокацию</Button>
+          locationState === "prompt" || locationState === "denied" ?
+          <>
+          <br/>
+          <Button style={{backgroundColor:AppColors.purple}} onClick={(e:any)=> {
+            dispatch(getUserGeolocation())
+          }}>
+            Включить геолокацию
+          </Button>
+          </>
           :
           null
         }
