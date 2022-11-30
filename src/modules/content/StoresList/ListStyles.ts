@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { AppColors } from "@styles/global";
+import { burgerSize } from "@modules/header/HeaderStyle";
 
 const {gray} = AppColors;
 
@@ -56,7 +57,6 @@ export const List = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-grow:1;
   margin: 0 6px;
   width: calc(25% - 14px);
   height: 120px;
@@ -65,11 +65,24 @@ export const List = styled.div`
   border-radius: 10px;
   margin-bottom: 10px;
   position: relative;
-  background-color: white;
+  background-color: ${AppColors.purple};
   box-shadow: 2px 2px 8px -4px white;
   transform:rotateX(0deg);
   transform-origin:bottom;
   transition: all .2s linear;
+  img{
+    width:${burgerSize}px;
+    height:${burgerSize}px;
+  }
+  @media (max-width: 768px) {
+    width: calc(50% - 12px);
+  }
+  @media (max-width: 390px) {
+    h4 {
+      width: 90%;
+      font-size: 14px;
+    }
+  }
   h4 {
     display: inline-flex;
     justify-content: center;
@@ -77,19 +90,6 @@ export const List = styled.div`
     min-height: 36px;
     margin-top: 4px;
     font-size:14px;
-  }
-  @media (max-width: 768px) {
-    width: calc(25% - 26px);
-  }
-  @media (max-width: 414px) {
-    width: calc(50% - 26px);
-  }
-  @media (max-width: 390px) {
-    width: calc(100% - 14px);
-    h4 {
-      width: 90%;
-      font-size: 14px;
-    }
   }
   p {
     margin-top: 8px;

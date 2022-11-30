@@ -16,8 +16,10 @@ export default function ScanProduct(){
         return () => {
           video.current.style.display = "inline-block"
           const stream = video.current.srcObject;
-          const tracks = stream.getTracks();
-          tracks.forEach((track)=>track.stop())
+          if(stream){
+            const tracks = stream.getTracks();
+            tracks.forEach((track)=>track.stop())
+          }
       };
     }, [video])
 
@@ -47,9 +49,13 @@ export default function ScanProduct(){
       }
     }
 
-    const barcodeDetector = new BarcodeDetector({
-      formats:["aztec","code_128","code_39","code_93","codabar","data_matrix","ean_13","ean_8","itf","pdf417","qr_code","upc_a","upc_e"]
-    });
+    const barcodeDetector = () => {
+      if(new BarcodeDetector){
+       return new BarcodeDetector({
+          formats:["aztec","code_128","code_39","code_93","codabar","data_matrix","ean_13","ean_8","itf","pdf417","qr_code","upc_a","upc_e"]
+        });
+      }
+  }
 
     const takeSnapshot = async () => {
       const width = parseInt(window.getComputedStyle(canvas.current).width);

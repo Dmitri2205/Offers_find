@@ -51,6 +51,7 @@ export const Burger = styled.span<BurgerProps>`
   border-radius: 8px;
   background-color: ${gray};
   border: 1px solid slateblue;
+  box-shadow: 0px 0px 7px ${AppColors.purple};
   position: relative;
   span {
     display: inline-flex;
@@ -107,14 +108,15 @@ export const AsideBlock = styled.div(({ menuOpened }: BurgerProps) => {
       justify-content: flex-start;
       align-items:flex-start;
       width:268px;
-      height:96vh;
+      height:95.2vh;
       position:fixed;
-      top:4vh;
+      top:4.8vh;
       padding-left:8px;
       border-top-right-radius:8px;
       border-bottom-right-radius:8px;
       border:1px solid ${purple};
       border-left:none;
+      ${menuOpened ? `box-shadow: 0px 8px 8px ${AppColors.purple}` : null};
       ${menuOpened ? "left:0" : "left:-268px"};
       background-color:${gray};
       transition: all .3s linear;
@@ -123,6 +125,9 @@ export const AsideBlock = styled.div(({ menuOpened }: BurgerProps) => {
         margin-bottom:8px;
         color:gainsboro;
         text-decoration:none;
+        &:first-child{
+          margin-top:12px;
+        }
         & .link-icon {
           display:inline-flex;
           font-size:8px;

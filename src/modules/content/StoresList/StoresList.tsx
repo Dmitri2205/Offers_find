@@ -73,6 +73,7 @@ const StoresList = () => {
       return (
         <List key={`${store.sap_code}i`}>
           <Link to={`store/${store.sap_code}`}>
+          <img src={logo5ka} alt="shop_logo"></img>
             <h4>{store.address}</h4>
             <p>
               <span>
@@ -87,7 +88,7 @@ const StoresList = () => {
                     if (itemType === "банкомат" || itemType === "кафе") {
                       return (
                         <label key={`fig${i}`}>
-                          <img src={item.type_icon} />
+                          <img src={item.type_icon} alt="store_sublease_icon"/>
                           <span>{item.type_name}</span>
                         </label>
                       );
@@ -108,7 +109,6 @@ const StoresList = () => {
   return (
     <Stores className="stores-component">
       <label>
-        <img src={logo5ka}></img>
         <h4>{`${locationType === 'все' ? 'Все' : 'Ближайшие к Вам'} магазины`}</h4>
       </label>
       <ButtonGroup aria-label="Button group">

@@ -11,8 +11,27 @@
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
     />
+    <style>
+      #loading{
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        background-color: #212121;
+        color:gainsboro;
+      }
+    </style>
   </head>
   <body>
+    <script> 
+      document.addEventListener("DOMContentLoaded", ready);
+      function ready() {
+          document.getElementById("loading").remove();
+      };
+  
+      </script>
+    <div id="loading">Loading...</div>
     <div id="root"></div>
   </body>
 </html>

@@ -16,7 +16,7 @@ import * as moment from "moment";
 import { Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const MainMap: React.FC = () => {
+const MainMap: React.FC = () => {
   moment.locale("ru");
 
   const icon = new Icon({
@@ -102,3 +102,5 @@ export const MainMap: React.FC = () => {
     </MainMapContainer>
   );
 };
+
+export default MainMap;

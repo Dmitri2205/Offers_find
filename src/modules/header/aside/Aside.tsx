@@ -10,6 +10,16 @@ interface AsideProps {
   childRef?: MutableRefObject<HTMLDivElement>;
 }
 
+type ILinks = {
+  name:string,
+  url: string,
+  icon?: any,
+  children?:Array<{
+    name:string,
+    url:string
+  }>
+}[];
+
 const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
   
   useEffect(() => {
@@ -24,7 +34,7 @@ const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
       });
   }, []);
 
-  const [navLinks, setNavLinks] = useState([
+  const [navLinks, setNavLinks] = useState<ILinks>([
     {
       name: "На главную",
       url: "/",
@@ -33,11 +43,11 @@ const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
       name: "На карте",
       url: "/map",
     },
-    {
-      name:"Отсканировать товар",
-      url:"/scan",
-      icon:experimental
-    },
+    // {
+    //   name:"Отсканировать товар",
+    //   url:"/scan",
+    //   icon:experimental
+    // },
     {
       name: "Категории",
       url: "/categories",
@@ -65,8 +75,8 @@ const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
       ],
     },
     {
-      name: "",
-      url: "",
+      name: "Список покупок",
+      url: "/toBuy",
     },
     {
       name: "",
@@ -74,7 +84,7 @@ const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
     },
   ]);
 
-  const [selectedCategory,setSelectedCategory] = useState<{ name: string; url: string; }>({name:'Категории',url:''});
+  // const [selectedCategory,setSelectedCategory] = useState<{ name: string; url: string; }>({name:'Категории',url:''});
 
 
 
@@ -101,7 +111,10 @@ const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
               {name}
               {
                 icon ? 
-                <span className="link-icon"><img src={icon} alt="link_icon"/>Эксперементальная функция</span>
+                <span className="link-icon">
+                  <img src={icon} alt="link_icon"/>
+                  Эксперементальная функция
+                </span>
                 :
                 null
               }

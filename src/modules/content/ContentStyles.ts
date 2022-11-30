@@ -7,7 +7,7 @@ export const Content = styled.main`
 display:block;
 width:100%;
 height:100%;
-min-height:50vh;
+min-height:100vh;
 position:relative;
 @media (min-width:1025px){
     display:none;

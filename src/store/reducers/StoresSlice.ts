@@ -1,8 +1,7 @@
-import { useAppSelector } from "../../hooks";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { api } from "@API";
 
-export interface StoresState {
+export interface IStoresState {
     stores: Array<any>;
     loading: "idle" | "pending" | "rejected" | "loaded"
 }
@@ -12,7 +11,7 @@ interface OffersInterface {
     data: Array<any>;
 }
 
-const initialState: StoresState = {
+const initialState: IStoresState = {
     stores:[],
     loading:"idle"
 

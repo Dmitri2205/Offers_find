@@ -7,7 +7,7 @@
     "isolatedModules": true,//  safely transpile files in the TypeScript project
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
+    "module": "esnext",
     "target": "es5",
     "jsx": "react-jsx",
     "allowJs": true,

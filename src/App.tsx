@@ -1,20 +1,22 @@
-import React,{ useState, useEffect, useRef, useLayoutEffect } from "react";
+import React,{ useState, useEffect, useRef, useLayoutEffect, Suspense } from "react";
 import Header from "@modules/header/Header";
 import Content from "@modules/content/Content";
-import Aside from "@modules/header/aside/Aside";
-import StoreDetails from "@modules/StoreDetails";
 import { AppColors, ApplicationWraper } from "@styles/global";
 import { loadStores, storesSlice } from "./store/reducers/StoresSlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { getUserGeolocation } from "./store/reducers/CoordsSlice";
 import { Route, Routes } from "react-router-dom";
-import { MainMap } from "./modules/Map/MainMap";
 import { NotSupportedDevice } from "@modules/content/ContentStyles";
 import { Button, Spinner } from "react-bootstrap";
 import { callToaster, mountToast } from './hooks/useToaster';
 import StoresList from "@modules/content/StoresList/StoresList";
 import ScanProduct from "@modules/ScanProduct";
 
+
+const Aside = React.lazy(()=>import("@modules/header/aside/Aside"));
+const StoreDetails = React.lazy(()=>import("@modules/StoreDetails"));
+const MainMap = React.lazy(()=>import("@modules/Map/MainMap"));
+const ToBuy = React.lazy(()=>import("@modules/ToBuy/ToBuy"));
 
 export default function App() {
   // const { setStores } = storesSlice.actions; //сеттер магазинов
@@ -62,7 +64,8 @@ useLayoutEffect(()=>{
   const asideClickHandler = (e: Event) => {
     const { target, currentTarget } = e;
     console.log(e);
-    // if (target.classList.contain("aside-menu")) {
+    // if (currentTarget.classList.contain("aside-menu")) {
+    
     // }
   };
 
@@ -85,12 +88,15 @@ useLayoutEffect(()=>{
         {loading === "pending" ? (
           <Spinner animation="border" variant="info" />
         ) : (
+          <Suspense fallback={"Loading"}>
           <Routes>
             <Route index element={<StoresList />} />
-            <Route path="store/:storeSap" element={<StoreDetails />} />
+            <Route path="store/:storeSap" element={<StoreDetails />}/>
             <Route path="map" element={<MainMap />} />
             <Route path="scan" element={<ScanProduct/>}/>
+            <Route path="toBuy" element={<ToBuy />}/>
           </Routes>
+        </Suspense>
         )}
         {
           locationState === "prompt" || locationState === "denied" ?
