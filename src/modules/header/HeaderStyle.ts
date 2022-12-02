@@ -108,9 +108,9 @@ export const AsideBlock = styled.div(({ menuOpened }: BurgerProps) => {
       justify-content: flex-start;
       align-items:flex-start;
       width:268px;
-      height:95.2vh;
+      height:95.4vh;
       position:fixed;
-      top:4.8vh;
+      top:4.5vh;
       padding-left:8px;
       border-top-right-radius:8px;
       border-bottom-right-radius:8px;

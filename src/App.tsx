@@ -30,6 +30,7 @@ export default function App() {
   
   const asideMenu = useRef(null);
   
+//Перенести в хук или написать свой
   const isLocationOn = navigator.permissions.query({name:"geolocation"});
   isLocationOn.then((result)=>{
       setLocationState(result.state.toString());
@@ -63,7 +64,7 @@ useLayoutEffect(()=>{
 
   const asideClickHandler = (e: Event) => {
     const { target, currentTarget } = e;
-    console.log(e);
+    setMenuOpened(false)
     // if (currentTarget.classList.contain("aside-menu")) {
     
     // }

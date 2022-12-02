@@ -49,32 +49,6 @@ const Aside: React.FC<AsideProps> = ({ menuOpened, childRef }) => {
     //   icon:experimental
     // },
     {
-      name: "Категории",
-      url: "/categories",
-      children: [
-        {
-          name:'name1',
-          url:"/ctaegories/1"
-        },
-        {
-          name:'name2',
-          url:"/ctaegories/2"
-        },
-        {
-          name:'name3',
-          url:"/ctaegories/3"
-        },
-        {
-          name:'name4',
-          url:"/ctaegories/4"
-        },
-        {
-          name:'name5',
-          url:"/ctaegories/6"
-        },
-      ],
-    },
-    {
       name: "Список покупок",
       url: "/toBuy",
     },
