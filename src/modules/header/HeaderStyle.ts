@@ -24,7 +24,7 @@ export const Header = styled.header((props) => {
     & .navbar {
       width:100%;
       height:100%;
-      padding:0;
+      padding:0 0 0 8px;
     }
     & img{
       width:24px;

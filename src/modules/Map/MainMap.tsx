@@ -29,7 +29,7 @@ const MainMap: React.FC = () => {
     iconSize: [32, 32],
   });
 
-  const {coords: { center},} = useAppSelector((state) => state.coordsReducer);
+  const {coords: {center}} = useAppSelector((state) => state.coordsReducer);
   const { stores,loading } = useAppSelector((state) => state.storesReducer);
 
   return (

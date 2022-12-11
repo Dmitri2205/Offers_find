@@ -1,4 +1,4 @@
-import React, { JSXElementConstructor, SyntheticEvent, useEffect } from "react";
+import React from "react";
 import { createPortal } from "react-dom";
 import {
   Header as Head,
@@ -11,8 +11,6 @@ import backButton from '@icons/back_button.svg';
 
 interface HeaderProps {
   isLogedIn?: boolean;
-  mapShown: boolean;
-  setMapShown: (mapShown: boolean) => void;
   menuOpened: boolean;
   setMenuOpened: (isMenuOpened: boolean) => void;
   children?: React.ReactNode;
@@ -39,7 +37,6 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <Head>
       <Navbar bg="dark" variant="dark">
-        <Container>
           <Burger onClick={menuHandler} menuOpened={menuOpened}>
             <span></span>
           </Burger>
@@ -51,12 +48,6 @@ const Header: React.FC<HeaderProps> = ({
           :
           null
           }
-          <Nav className="me-auto">
-            {/* <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link> */}
-          </Nav>
-        </Container>
       </Navbar>
       {children}
     </Head>
