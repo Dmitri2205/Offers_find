@@ -81,6 +81,7 @@ export default function App() {
 
   const onSuccessGeoWatch = (position: any): void => {
     console.log(position);
+    console.log(position.heading);
     const { latitude, longitude } = position.coords;
     dispatch(setCurrentPosition({ latitude, longitude }));
   };
