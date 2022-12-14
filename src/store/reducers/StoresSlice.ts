@@ -56,14 +56,12 @@ export const storesSlice = createSlice({
         },
         setStoreOffers(state,action: PayloadAction<any>){
             const {data,storeIndex} = action.payload;
-            console.log(action.payload);
             state.stores[storeIndex].offers = data;
         }
     },
     extraReducers: (builder) => {
         builder
         .addCase(loadStores.fulfilled,(state,action) => {
-            console.log(action.payload)
             state.stores = action.payload;
         })
         .addCase(loadStores.rejected,(state,action) => {

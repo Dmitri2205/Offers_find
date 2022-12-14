@@ -34,7 +34,6 @@ export default function App() {
   const [locationState, setLocationState] = useState<string>("idle");
 
   const asideMenu = useRef(null);
- 
   
   useEffect(() => {
     mountToast();

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import scrollHelper from "@modules/scrollHelper";
 import { Button, ButtonGroup, Spinner } from "react-bootstrap";
 
-export interface storesList {
+export interface IStoresList {
   storesReducer: any,
   address: string,
   name: string,
@@ -16,7 +16,8 @@ export interface storesList {
   work_end_time: string,
   work_start_time: string,
   state: string,
-  store_sublease: Array<subleaseProps>
+  store_sublease: Array<subleaseProps>,
+  is_24h: boolean
 };
 
 type subleaseProps = {
@@ -68,16 +69,22 @@ const StoresList = () => {
   }
 
   const renderList = useMemo(()=>{
-    return  stores.map((store: storesList, i: number) => {
+    return  stores.map((store: IStoresList, i: number) => {
       const {work_start_time,work_end_time} = store;
       return (
         <List key={`${store.sap_code}i`}>
           <Link to={`store/${store.sap_code}`}>
-          <img src={logo5ka} alt="shop_logo"></img>
+            <label className="d-inline-flex flex-row justify-center align-items-center w-90 m-2">
+            <img src={logo5ka} alt="shop_logo" style={{marginRight:"4px"}}></img>
             <h4>{store.address}</h4>
+            </label>
             <p>
               <span>
-                {store.work_start_time} - {store.work_end_time}
+                {!store.is_24h ?
+                  `${store.work_start_time} - ${store.work_end_time}`
+                  :
+                  "Круглосуточно"
+                }
               </span>
             </p>
             {store.store_sublease ? (

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { storesSlice } from "../store/reducers/StoresSlice";
 import { toBuySlice } from "../store/reducers/ToBuySlice";
-import { storesList } from "./content/StoresList/StoresList";
+import { IStoresList } from "./content/StoresList/StoresList";
 import { api } from "@API";
 import { AddButton, DetailsWraper } from "@styles/DetailsStyles";
 import * as moment from "moment";
@@ -39,7 +39,7 @@ const StoreDetails = (props: any) => {
 
   useEffect(() => {
     let currentStore: number = stores.findIndex(
-      (store: storesList, i: number): boolean => {
+      (store: IStoresList, i: number): boolean => {
         return store.sap_code === params.storeSap;
       }
     );
@@ -134,7 +134,7 @@ const StoreDetails = (props: any) => {
       {loading ? (
         <Spinner animation="border" variant="info" />
         ) : !loading && stores[storeIndex]?.offers.length === 0 ? (
-          <h4>Кажется, в этом магазине нет акционных товаров</h4>
+          <h4>Кажется, в этом магазине нет акционных товаров. А может магазин обновляет список товаров. Кто знает?...</h4>
           ) : (
             renderOffers()
             )}

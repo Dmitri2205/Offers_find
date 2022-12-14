@@ -89,7 +89,8 @@ export const List = styled.div`
     align-items: center;
     min-height: 36px;
     margin-top: 4px;
-    font-size:14px;
+    font-size:.7em;
+    width:70%
   }
   p {
     margin-top: 8px;

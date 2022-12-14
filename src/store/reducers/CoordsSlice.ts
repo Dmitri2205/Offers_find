@@ -22,10 +22,10 @@ const getLocation = () => {
       navigator.geolocation.getCurrentPosition((position: GeolocationPosition)=>{
         const {coords:{latitude,longitude}} = position;
         const bounds = [
-          latitude - .0111,
-          longitude - .0111,
-          latitude + .0111,
-          longitude + .0111,
+          latitude - .111,
+          longitude - .111,
+          latitude + .111,
+          longitude + .111,
         ];
         const points = {center:{latitude,longitude},bounds}
         resolve(points),reject
@@ -51,7 +51,6 @@ export const coordsSlice = createSlice({
       state.coords.bounds = newBounds
     },
     setCurrentPosition(state,action: PayloadAction<any>){
-      console.log(action.payload);
       state.coords.center = action.payload
     }
   },
