@@ -7,7 +7,7 @@
     "isolatedModules": true,//  safely transpile files in the TypeScript project
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
+    "module": "esnext",
     "target": "es5",
     "jsx": "react-jsx",
     "allowJs": true,
@@ -19,8 +19,9 @@
       "@styles/*":["styles/*"],
       "@API":["api/index.js"],
       "@store":["store/*"],
-      "@icons":["images/icons/*"],
-      "@hooks":["hooks/*"]
+      "@icons/*":["images/icons/*"],
+      "@hooks/*":["hooks/*"],
+      "@portals":["portals/*"]
     },
     "lib": ["es2015", "es2016", "dom", "es2018.promise"]
     }

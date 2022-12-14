@@ -7,16 +7,17 @@ import { Link } from "react-router-dom";
 import scrollHelper from "@modules/scrollHelper";
 import { Button, ButtonGroup, Spinner } from "react-bootstrap";
 
-export type storesList = {
-  storesReducer: any;
-  address: string;
-  name: string;
-  city_name: string;
-  sap_code: string;
-  work_end_time: string;
-  work_start_time: string;
-  state: string;
-  store_sublease: Array<subleaseProps>;
+export interface IStoresList {
+  storesReducer: any,
+  address: string,
+  name: string,
+  city_name: string,
+  sap_code: string,
+  work_end_time: string,
+  work_start_time: string,
+  state: string,
+  store_sublease: Array<subleaseProps>,
+  is_24h: boolean
 };
 
 type subleaseProps = {
@@ -49,15 +50,41 @@ const StoresList = () => {
     dispatch(setLocationBounds(type))
   }
 
+  const checkStoreIsOpen = (startTime: string,endTime: string): boolean => {
+    const nowHours = new Date().getHours();
+    const nowMinutes = new Date().getMinutes();
+    const s = startTime.split(":");
+    const [startHours,startMinutes] = s; 
+    const e = endTime.split(":")
+    const [endHours,endMinutes] = e;
+    if(nowHours > parseInt(startHours) && nowHours < parseInt(endHours)){
+      return true;
+    }else{
+      if(nowMinutes >= parseInt(startMinutes) && nowMinutes <= parseInt(endMinutes)){
+        console.log("Hours seems closed. Equaling minutes")
+        return true;
+      }
+      return false;
+    }
+  }
+
   const renderList = useMemo(()=>{
-    return  stores.map((store: storesList, i: number) => {
+    return  stores.map((store: IStoresList, i: number) => {
+      const {work_start_time,work_end_time} = store;
       return (
         <List key={`${store.sap_code}i`}>
           <Link to={`store/${store.sap_code}`}>
+            <label className="d-inline-flex flex-row justify-center align-items-center w-90 m-2">
+            <img src={logo5ka} alt="shop_logo" style={{marginRight:"4px"}}></img>
             <h4>{store.address}</h4>
+            </label>
             <p>
               <span>
-                {store.work_start_time} - {store.work_end_time}
+                {!store.is_24h ?
+                  `${store.work_start_time} - ${store.work_end_time}`
+                  :
+                  "Круглосуточно"
+                }
               </span>
             </p>
             {store.store_sublease ? (
@@ -68,7 +95,7 @@ const StoresList = () => {
                     if (itemType === "банкомат" || itemType === "кафе") {
                       return (
                         <label key={`fig${i}`}>
-                          <img src={item.type_icon} />
+                          <img src={item.type_icon} alt="store_sublease_icon"/>
                           <span>{item.type_name}</span>
                         </label>
                       );
@@ -77,7 +104,7 @@ const StoresList = () => {
                 )}
               </div>
             ) : null}
-            {store.state === "active" ? (
+            {checkStoreIsOpen(work_start_time,work_end_time) ? (
               <span className="active"></span>
             ) : null}
           </Link>
@@ -89,7 +116,6 @@ const StoresList = () => {
   return (
     <Stores className="stores-component">
       <label>
-        <img src={logo5ka}></img>
         <h4>{`${locationType === 'все' ? 'Все' : 'Ближайшие к Вам'} магазины`}</h4>
       </label>
       <ButtonGroup aria-label="Button group">
@@ -103,16 +129,15 @@ const StoresList = () => {
       </ButtonGroup>
 
       <ListWraper ref={storesRef} className="stores-list-wraper">
-        {stores.length !== 0 ? (
+        {
+        stores.length !== 0 ? 
          renderList
-        ) : null}
+         : null
+        }
       </ListWraper>
     </Stores>
   );
 };
 
 export default StoresList;
-function setLocationBounds(type: string): any {
-  throw new Error("Function not implemented.");
-}
 

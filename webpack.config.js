@@ -66,7 +66,7 @@ const rules = [
     test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
     type: mode === "production" ? "asset" : "asset/resource", // В продакшен режиме
     // изображения размером до 8кб будут инлайнится в код
-    // В режиме разработки все изображения будут помещаться в dist/assets
+    // В режиме разработки все изображения будут помещаться в build/assets
   },
   {
     test: /\.(woff2?|eot|ttf|otf)$/i,
@@ -96,13 +96,13 @@ module.exports = (env) => {
         "@store": path.resolve(__dirname, "src/store"),
         "@icons": path.resolve(__dirname, "src/images/icons"),
         "@hooks": path.resolve(__dirname, "src/hooks"),
+        "@portals": path.resolve(__dirname,"src/portals/*")
       },
     },
     output: {
       filename: "bundle.js",
-      path: path.resolve(__dirname, "dist"),
+      path: path.resolve(__dirname, "build"),
       assetModuleFilename: "assets/[name][hash][ext]",
-      publicPath: "/",
     },
     devServer: {
       hot: true,

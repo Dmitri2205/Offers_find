@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { AppColors } from "@styles/global";
+import { burgerSize } from "@modules/header/HeaderStyle";
 
 const {gray} = AppColors;
 
@@ -31,23 +32,13 @@ export const ListWraper = styled.div`
   display: flex;
   justify-content: left;
   width: 100%;
-  height: 99.6vh;
+  height: 100%;
   flex-wrap: wrap;
   overflow-y:auto;
   &::-webkit-scrollbar {
     width:0
   }
   & { -ms-overflow-style: none; }
-  & .spinner-border {
-    width:100px;
-    height:100px;
-    margin: auto;
-    position:absolute;
-    top:0;
-    right:0;
-    left:0;
-    bottom:0;
-  }
 `;
 
 const blink = keyframes`
@@ -66,7 +57,6 @@ export const List = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-grow:1;
   margin: 0 6px;
   width: calc(25% - 14px);
   height: 120px;
@@ -75,31 +65,32 @@ export const List = styled.div`
   border-radius: 10px;
   margin-bottom: 10px;
   position: relative;
-  background-color: white;
+  background-color: ${AppColors.purple};
   box-shadow: 2px 2px 8px -4px white;
   transform:rotateX(0deg);
   transform-origin:bottom;
   transition: all .2s linear;
+  img{
+    width:${burgerSize}px;
+    height:${burgerSize}px;
+  }
+  @media (max-width: 768px) {
+    width: calc(50% - 12px);
+  }
+  @media (max-width: 390px) {
+    h4 {
+      width: 90%;
+      font-size: 14px;
+    }
+  }
   h4 {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     min-height: 36px;
     margin-top: 4px;
-    font-size:14px;
-  }
-  @media (max-width: 768px) {
-    width: calc(25% - 26px);
-  }
-  @media (max-width: 414px) {
-    width: calc(50% - 26px);
-  }
-  @media (max-width: 390px) {
-    width: calc(100% - 14px);
-    h4 {
-      width: 90%;
-      font-size: 14px;
-    }
+    font-size:.7em;
+    width:70%
   }
   p {
     margin-top: 8px;

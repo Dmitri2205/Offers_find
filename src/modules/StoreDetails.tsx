@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React,{ useEffect, useState, useRef, Suspense } from "react";
 import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { storesSlice } from "../store/reducers/StoresSlice";
-import { storesList } from "./content/StoresList/StoresList";
+import { toBuySlice } from "../store/reducers/ToBuySlice";
+import { IStoresList } from "./content/StoresList/StoresList";
 import { api } from "@API";
-import { DetailsWraper } from "@styles/DetailsStyles";
+import { AddButton, DetailsWraper } from "@styles/DetailsStyles";
 import * as moment from "moment";
 import scrollHelper from "./scrollHelper";
 import {
@@ -15,6 +16,8 @@ import {
   Popover,
   Spinner,
 } from "react-bootstrap";
+import { callToaster } from '../hooks/useToaster';
+import { AppColors } from '../styles/global';
 
 type offersType = {
   offers: any;
@@ -27,6 +30,7 @@ const StoreDetails = (props: any) => {
   const [storeIndex, setStoreIndex] = useState<number | null>(null);
 
   const { setStoreOffers } = storesSlice.actions;
+  const { addToBuy } = toBuySlice.actions;
   const { stores } = useAppSelector((state) => state.storesReducer);
   const dispatch = useAppDispatch();
 
@@ -35,7 +39,7 @@ const StoreDetails = (props: any) => {
 
   useEffect(() => {
     let currentStore: number = stores.findIndex(
-      (store: storesList, i: number): boolean => {
+      (store: IStoresList, i: number): boolean => {
         return store.sap_code === params.storeSap;
       }
     );
@@ -61,6 +65,10 @@ const StoreDetails = (props: any) => {
   const scrollHandler = (e: any): void => {
     scrollHelper(e);
   };
+
+  const addHandler = (item: {}): void => {
+    dispatch(addToBuy(item))
+  }
 
   useEffect(() => {
     if (!ItemsList) return;
@@ -109,6 +117,7 @@ const StoreDetails = (props: any) => {
                       Number(current_prices.price_promo__min)
                     ).toFixed(2) +
                     "₽"}
+                  <AddButton onClick={(e: any)=>addHandler(offer)}>+</AddButton>
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
@@ -120,15 +129,17 @@ const StoreDetails = (props: any) => {
   };
 
   return (
+    <Suspense fallback={"loading..."}>
     <DetailsWraper ref={ItemsList}>
       {loading ? (
         <Spinner animation="border" variant="info" />
-      ) : !loading && stores[storeIndex]?.offers.length === 0 ? (
-        <h4>Кажется, в этом магазине нет акционных товаров</h4>
-      ) : (
-        renderOffers()
-      )}
+        ) : !loading && stores[storeIndex]?.offers.length === 0 ? (
+          <h4>Кажется, в этом магазине нет акционных товаров. А может магазин обновляет список товаров. Кто знает?...</h4>
+          ) : (
+            renderOffers()
+            )}
     </DetailsWraper>
+    </Suspense>
   );
 };
 
