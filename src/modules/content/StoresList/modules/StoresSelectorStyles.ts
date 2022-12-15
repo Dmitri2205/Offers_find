@@ -29,6 +29,10 @@ export const SliderItem = styled.div`
     justify-content: center;
     align-items:center;
     pointer-events:none;
+    &>span:last-child{
+        font-size:.85em;
+    }
+    font-size:1em;
     &:first-child{
         margin-left:0;
     }
