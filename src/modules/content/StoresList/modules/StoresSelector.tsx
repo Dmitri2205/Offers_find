@@ -1,9 +1,10 @@
 import React, { useState,useEffect, useRef } from "react";
 import { SelectorScrollTrack, SliderItem, StoresSelectorWraper } from './StoresSelectorStyles';
-import { useAppSelector } from "@hooks/index";
 import { storesSlice } from "../../../../store/reducers/StoresSlice";
 import logo_5ka from "@icons/logo_5ka.svg";
-import useSlider from "@hooks/useSLider";
+import logo_perekrestok from "@icons/perekrestok.svg";
+import { useAppSelector } from "@hooks/index";
+import useTouchSlider from "@hooks/useTouchSlider";
 
 interface IStoresSelector {
     props:any | undefined
@@ -14,16 +15,16 @@ export default function StoresSelector(props: IStoresSelector){
 const {stores,loading} = useAppSelector((state)=> state.storesReducer)
 
     const slider = useRef(null);
-    (() => useSlider(slider))();
+    (() => useTouchSlider(slider))();
 
     const [storesNames] = useState([
         {
-            name:"5ка1",
+            name:"Пятёрочка",
             logo:logo_5ka
         },
         {
-            name:"5ка2",
-            logo:logo_5ka
+            name:"Перекрёсток",
+            logo:logo_perekrestok
         },
         {
             name:"5ка3",
@@ -48,7 +49,7 @@ const {stores,loading} = useAppSelector((state)=> state.storesReducer)
 
     ])
     return(
-        <StoresSelectorWraper>
+        <StoresSelectorWraper id="sliderWraper">
             <SelectorScrollTrack ref={slider}>
             {
                 storesNames.map((store,i)=>{
