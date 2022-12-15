@@ -20,7 +20,7 @@
     "url": "https://github.com/Dmitri2205/React_underground/issues"
   },
   "homepage": "https://dmitri2205.github.io/React_underground",
-  "private":true,
+  "private":false,
   "browserslist": [
     ">1%"
   ],

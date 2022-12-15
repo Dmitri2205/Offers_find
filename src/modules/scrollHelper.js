@@ -6,7 +6,7 @@ export default function scrollHelper(event) {
   for (let element of elements) {
     const elTop = element.getBoundingClientRect().top;
     const elBottom = element.getBoundingClientRect().bottom;
-    const offset = Math.floor(elTop - listHeight);
+    const offset = Math.floor(elTop - (listHeight - 8));
     offsets.push({ offset, elTop, elBottom });
     const elDegrees = Math.floor(offset * -3);
     if (offset <= 0 && offset >= -45 && elDegrees < 90) {

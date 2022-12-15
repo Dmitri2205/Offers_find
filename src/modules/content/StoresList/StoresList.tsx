@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "../../../hooks";
 import { Link } from "react-router-dom";
 import scrollHelper from "@modules/scrollHelper";
 import { Button, ButtonGroup, Spinner } from "react-bootstrap";
+import StoresSelector from "./modules/StoresSelector";
 
 export interface IStoresList {
   storesReducer: any,
@@ -28,12 +29,8 @@ type subleaseProps = {
 const StoresList = () => {
   // const { setStores } = storesSlice.actions;
   const { setLocationBounds} = coordsSlice.actions;
-  const { stores } = useAppSelector((state) => state.storesReducer); //селектор магазинов
-  const dispatch = useAppDispatch(); // диспатч сеттера для редуктора
-
-  const [locationType,setLocationType] = useState<string>('ближайшие');
-
-
+  const { stores } = useAppSelector((state) => state.storesReducer);
+  const dispatch = useAppDispatch();
   const storesRef = useRef(null);
 
   useEffect(() => {
@@ -43,12 +40,6 @@ const StoresList = () => {
   const scrollHandle = (event: any) => {
     scrollHelper(event);
   };
-
-  const switchHandler = (type: string): void => {
-    type = type.toLowerCase();
-    setLocationType(type);
-    dispatch(setLocationBounds(type))
-  }
 
   const checkStoreIsOpen = (startTime: string,endTime: string): boolean => {
     const nowHours = new Date().getHours();
@@ -115,19 +106,7 @@ const StoresList = () => {
 
   return (
     <Stores className="stores-component">
-      <label>
-        <h4>{`${locationType === 'все' ? 'Все' : 'Ближайшие к Вам'} магазины`}</h4>
-      </label>
-      <ButtonGroup aria-label="Button group">
-        {
-          ["Ближайшие","Все"].map((type: string,i)=>{
-            return(
-              <Button variant="secondary" onClick={e=>switchHandler(type)} key={`type${i}`}>{type}</Button>
-            )
-          })
-        }
-      </ButtonGroup>
-
+      <StoresSelector props />
       <ListWraper ref={storesRef} className="stores-list-wraper">
         {
         stores.length !== 0 ? 
