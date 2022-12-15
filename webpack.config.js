@@ -63,7 +63,7 @@ const rules = [
     use: "html-loader",
   },
   {
-    test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
+    test: /\.(png|jpg|jpeg|gif|svg|webp|ico)$/i,
     type: mode === "production" ? "asset" : "asset/resource", // В продакшен режиме
     // изображения размером до 8кб будут инлайнится в код
     // В режиме разработки все изображения будут помещаться в build/assets

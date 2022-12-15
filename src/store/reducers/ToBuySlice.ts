@@ -28,7 +28,7 @@ export const toBuySlice = createSlice({
         },
         removeToBuy(state,action:PayloadAction<any>){
             const {payload} = action;
-            state.list[payload.index] = payload.value;
+            state.list = payload;
         }
     }
 })
